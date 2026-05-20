@@ -1,0 +1,230 @@
+/**
+ * InfoCards Component Styles
+ * Three-column grid of informational cards
+ */
+
+.infoCards {
+  background: #fff;
+  padding: 80px 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ========== CARDS GRID ========== */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* ========== CARD STYLES ========== */
+.card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+  transform: translateY(-8px);
+  border-color: transparent;
+}
+
+/* Card Image */
+.cardImage {
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(212, 165, 165, 0.15) 0%, rgba(201, 153, 153, 0.1) 100%);
+  border-radius: 0;
+  transition: transform 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:hover .imagePlaceholder {
+  transform: scale(1.05);
+}
+
+/* Card Images */
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.95;
+}
+
+.card:hover .cardImg {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+/* ========== CARD CONTENT ========== */
+.cardContent {
+  padding: 30px 25px;
+  text-align: center;
+}
+
+.category {
+  font-size: 11px;
+  color: #999;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+}
+
+.description {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.additionalInfo {
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Large Tablet */
+@media (max-width: 1024px) {
+  .cardsGrid {
+    gap: 25px;
+  }
+
+  .cardImage {
+    height: 250px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 968px) {
+  .infoCards {
+    padding: 60px 0;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .cardImage {
+    height: 220px;
+  }
+
+  .cardContent {
+    padding: 25px 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .infoCards {
+    padding: 50px 0;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .cardImage {
+    height: 250px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .cardImage {
+    height: 200px;
+  }
+
+  .cardContent {
+    padding: 20px 15px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+}
+
+/* Make cards clickable links */
+.card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.card:hover {
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+}
+
+/* Different background gradients for each card */
+.bg1 {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+}
+
+.bg2 {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+}
+
+.bg3 {
+  background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+}
+
+/* Read More Link */
+.readMore {
+  display: inline-block;
+  color: #d4a5a5;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.card:hover .readMore {
+  gap: 10px;
+  transform: translateX(5px);
+}

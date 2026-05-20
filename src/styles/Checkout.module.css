@@ -1,0 +1,23 @@
+/* Checkout Page Styles */
+.checkoutPage { background: #fff; padding: 40px 0 80px; min-height: 70vh; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+.pageTitle { font-size: 32px; font-weight: 700; color: #000; margin-bottom: 30px; text-align: center; }
+.checkoutContent { display: grid; grid-template-columns: 1fr 400px; gap: 40px; }
+.checkoutForm { background: #f9f9f9; padding: 30px; border-radius: 15px; }
+.section { margin-bottom: 30px; }
+.section h2 { font-size: 20px; font-weight: 700; color: #000; margin-bottom: 20px; }
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.formGrid input { padding: 14px 18px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: border-color 0.3s ease; }
+.formGrid input:focus { outline: none; border-color: #d4a5a5; }
+.fullWidth { grid-column: 1 / -1; }
+.placeOrderBtn { width: 100%; background: linear-gradient(135deg, #d4a5a5 0%, #c99999 100%); color: white; padding: 18px; border-radius: 10px; font-weight: 700; font-size: 18px; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(212, 165, 165, 0.3); }
+.placeOrderBtn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(212, 165, 165, 0.5); }
+.orderSummary { background: #f9f9f9; padding: 30px; border-radius: 15px; height: fit-content; position: sticky; top: 100px; }
+.orderSummary h2 { font-size: 20px; font-weight: 700; color: #000; margin-bottom: 20px; }
+.summaryItems { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
+.summaryItem { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; color: #666; }
+.summaryTotals { }
+.summaryRow { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; color: #666; }
+.summaryTotal { display: flex; justify-content: space-between; font-size: 24px; font-weight: 700; color: #000; padding-top: 15px; border-top: 2px solid #e0e0e0; }
+@media (max-width: 1200px) { .checkoutContent { grid-template-columns: 1fr; } .orderSummary { position: static; max-width: 500px; margin: 0 auto; } }
+@media (max-width: 768px) { .formGrid { grid-template-columns: 1fr; } .checkoutForm { padding: 20px; } }
