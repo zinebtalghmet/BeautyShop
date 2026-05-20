@@ -2,7 +2,7 @@
 
 A full-featured e-commerce application built with React, React Router, and Context API. Features include product browsing, filtering, cart management, and checkout.
 
-## 🚀 Quick Start
+## 🚀 Quick  Start
 
 ```bash
 cd beauty-shop
