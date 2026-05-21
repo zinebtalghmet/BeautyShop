@@ -1,0 +1,392 @@
+/**
+ * SaleBanner Component Styles
+ * Promotional section with split layout
+ */
+
+.saleBanner {
+  background: linear-gradient(135deg, #f5e5e5 0%, #e8d5d5 100%);
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.bannerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+}
+
+/* ========== LEFT CONTENT ========== */
+.leftContent {
+  flex: 1;
+  max-width: 550px;
+}
+
+.saleTitle {
+  font-size: 42px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.saleSubtitle {
+  font-size: 38px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 25px;
+}
+
+.saleDescription {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 25px;
+  font-weight: 400;
+}
+
+/* Social Media Indicator Dots */
+.socialDots {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+}
+
+/* CTA Buttons */
+.ctaButtons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  background: linear-gradient(135deg, #d4a5a5 0%, #c99999 100%);
+  color: white;
+  padding: 16px 45px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(212, 165, 165, 0.35);
+}
+
+.primaryBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(212, 165, 165, 0.5);
+}
+
+.secondaryBtn {
+  background: transparent;
+  border: 2px solid #d4a5a5;
+  color: #d4a5a5;
+  padding: 14px 35px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+}
+
+.secondaryBtn:hover {
+  background: #d4a5a5;
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* ========== RIGHT CONTENT - PRODUCT SHOWCASE ========== */
+.rightContent {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.productShowcase {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.productItem {
+  width: 180px;
+  height: 320px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow:
+    0 15px 35px rgba(212, 165, 165, 0.25),
+    0 5px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.productItem:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow:
+    0 25px 50px rgba(212, 165, 165, 0.35),
+    0 10px 25px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.productItem::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(212, 165, 165, 0.3), rgba(255, 255, 255, 0.1));
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.productItem:hover::before {
+  opacity: 1;
+}
+
+.productStack {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.productItemSmall {
+  width: 145px;
+  height: 240px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 12px 30px rgba(212, 165, 165, 0.2),
+    0 5px 15px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.productItemSmall:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow:
+    0 20px 40px rgba(212, 165, 165, 0.3),
+    0 8px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.productItemSmall::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(212, 165, 165, 0.25), rgba(255, 255, 255, 0.1));
+  border-radius: 20px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.productItemSmall:hover::before {
+  opacity: 1;
+}
+
+/* Unique Shapes for Each Product */
+.shape1 {
+  border-radius: 30px 20px 25px 15px;
+  transform: rotate(-3deg);
+}
+
+.shape1:hover {
+  transform: rotate(-3deg) translateY(-12px) scale(1.05);
+}
+
+.shape2 {
+  border-radius: 25px 30px 20px 25px;
+  transform: rotate(2deg);
+}
+
+.shape2:hover {
+  transform: rotate(2deg) translateY(-12px) scale(1.05);
+}
+
+.shape3 {
+  border-radius: 28px 18px 22px 16px;
+  transform: rotate(-2deg);
+}
+
+.shape3:hover {
+  transform: rotate(-2deg) translateY(-10px) scale(1.05);
+}
+
+.shape4 {
+  border-radius: 20px 28px 18px 24px;
+  transform: rotate(3deg);
+}
+
+.shape4:hover {
+  transform: rotate(3deg) translateY(-10px) scale(1.05);
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Large Tablet */
+@media (max-width: 1200px) {
+  .saleTitle {
+    font-size: 36px;
+  }
+
+  .saleSubtitle {
+    font-size: 32px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 968px) {
+  .saleBanner {
+    padding: 60px 0;
+  }
+
+  .bannerContent {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .leftContent {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .socialDots {
+    justify-content: center;
+  }
+
+  .ctaButtons {
+    justify-content: center;
+  }
+
+  .rightContent {
+    width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .saleBanner {
+    padding: 50px 0;
+  }
+
+  .saleTitle {
+    font-size: 32px;
+  }
+
+  .saleSubtitle {
+    font-size: 28px;
+  }
+
+  .saleDescription {
+    font-size: 12px;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    padding: 14px 35px;
+    font-size: 12px;
+  }
+
+  .productShowcase {
+    gap: 15px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .saleTitle {
+    font-size: 28px;
+  }
+
+  .saleSubtitle {
+    font-size: 24px;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .productShowcase {
+    flex-direction: column;
+  }
+
+  .productItem,
+  .productItemSmall {
+    width: 120px;
+  }
+}
+
+/* Product Image Styles - Enhanced for 3D Effect */
+.productImg, .productImgSmall {
+  width: 110%;
+  height: 110%;
+  object-fit: contain;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.18)) drop-shadow(0 4px 8px rgba(212, 165, 165, 0.25));
+  transform-origin: center center;
+  transform: scale(1.1);
+}
+
+.productItem:hover .productImg {
+  filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.22)) drop-shadow(0 6px 12px rgba(212, 165, 165, 0.35));
+  transform: scale(1.18) translateZ(20px);
+}
+
+.productItemSmall:hover .productImgSmall {
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2)) drop-shadow(0 5px 10px rgba(212, 165, 165, 0.3));
+  transform: scale(1.18) translateZ(15px);
+}
+
+/* Social Dots as Links */
+.dot {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot:hover {
+  transform: scale(1.3);
+  background: #fff;
+}
