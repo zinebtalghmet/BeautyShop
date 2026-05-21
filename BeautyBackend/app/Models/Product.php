@@ -16,6 +16,7 @@ class Product extends Model
         'category_id', 'name', 'slug', 'description', 'features',
         'price', 'original_price', 'discount', 'stock',
         'rating', 'reviews_count', 'is_featured', 'is_active',
+        'uses_variants', 'low_stock_threshold', 'sku',
         'meta_title', 'meta_description',
     ];
 
@@ -31,6 +32,7 @@ class Product extends Model
             'reviews_count' => 'integer',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
+            'uses_variants' => 'boolean',
         ];
     }
 
@@ -49,6 +51,11 @@ class Product extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class)->orderBy('sort_order');
+    }
+
+    public function variants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 
     public function scopeActive($query)
