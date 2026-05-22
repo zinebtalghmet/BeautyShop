@@ -59,6 +59,12 @@
             </div>
         </header>
         <main class="content">
+            @if (session('success'))
+                <div style="margin: 16px 24px 0; padding: 12px 16px; background: #dcfce7; color: #166534; border-radius: 8px; font-size: 14px;">{{ session('success') }}</div>
+            @endif
+            @if (session('error'))
+                <div style="margin: 16px 24px 0; padding: 12px 16px; background: #fce8e8; color: #991b1b; border-radius: 8px; font-size: 14px;">{{ session('error') }}</div>
+            @endif
             @yield('content')
         </main>
     </div>

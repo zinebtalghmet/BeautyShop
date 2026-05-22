@@ -49,6 +49,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
         Route::put('/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
         Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+        Route::delete('/products/{product}/images/{image}', [ProductController::class, 'destroyImage'])->name('admin.products.images.destroy');
 
         // Orders
         Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');

@@ -8,7 +8,7 @@
         {{ $slide->exists ? 'Edit Slide' : 'New Slide' }}
     </h1>
 
-    <form method="POST" action="{{ $slide->exists ? route('admin.slides.update', $slide) : route('admin.slides.store') }}" style="background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+    <form method="POST" action="{{ $slide->exists ? route('admin.slides.update', $slide) : route('admin.slides.store') }}" enctype="multipart/form-data" style="background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
         @csrf
         @if ($slide->exists) @method('PUT') @endif
 
@@ -36,9 +36,18 @@
         </div>
 
         <div style="margin-bottom: 20px;">
-            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Image Path</label>
-            <input type="text" name="image" value="{{ old('image', $slide->image) }}" placeholder="/images/slides/slide1.png"
-                   style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">
+            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Image</label>
+            <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif"
+                   style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Allowed: JPG, PNG, WebP, GIF. Max 10MB.</div>
+            @error('image') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
+            @if ($slide->exists && $slide->image)
+                <div style="margin-top: 8px;">
+                    <img src="{{ asset('storage/' . $slide->image) }}" alt="Current slide image"
+                         style="max-width: 200px; max-height: 120px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                </div>
+            @endif
+            <div id="slide-image-preview" style="margin-top: 8px;"></div>
         </div>
 
         <div style="margin-bottom: 20px; display: flex; gap: 20px;">
@@ -63,4 +72,21 @@
         </div>
     </form>
 </div>
+
+<script>
+document.querySelector('input[name="image"]')?.addEventListener('change', function() {
+    const preview = document.getElementById('slide-image-preview');
+    preview.innerHTML = '';
+    if (this.files && this.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'max-width: 200px; max-height: 120px; border-radius: 6px; border: 1px solid #e2e8f0;';
+            preview.appendChild(img);
+        };
+        reader.readAsDataURL(this.files[0]);
+    }
+});
+</script>
 @endsection

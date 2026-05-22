@@ -17,6 +17,7 @@
         <table style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                    <th style="padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase;">Image</th>
                     <th style="padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase;">Title</th>
                     <th style="padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase;">Button</th>
                     <th style="padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase;">Sort</th>
@@ -27,6 +28,14 @@
             <tbody>
                 @forelse ($slides as $slide)
                     <tr style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 14px 16px;">
+                            @if ($slide->image)
+                                <img src="{{ asset('storage/' . $slide->image) }}" alt="{{ $slide->title }}"
+                                     style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #e2e8f0;">
+                            @else
+                                <span style="color: #94a3b8; font-size: 12px;">No image</span>
+                            @endif
+                        </td>
                         <td style="padding: 14px 16px; font-size: 14px; color: #0f172a;">{{ $slide->title }}</td>
                         <td style="padding: 14px 16px; font-size: 13px; color: #64748b;">{{ $slide->button_text ?: '—' }}</td>
                         <td style="padding: 14px 16px; text-align: center; font-size: 14px; color: #475569;">{{ $slide->sort_order }}</td>
@@ -42,7 +51,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" style="padding: 40px; text-align: center; color: #94a3b8; font-size: 14px;">No slides created.</td></tr>
+                    <tr><td colspan="6" style="padding: 40px; text-align: center; color: #94a3b8; font-size: 14px;">No slides created.</td></tr>
                 @endforelse
             </tbody>
         </table>

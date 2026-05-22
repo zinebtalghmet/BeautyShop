@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Slide;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class SlideController extends Controller
@@ -29,10 +30,14 @@ class SlideController extends Controller
             'subtitle' => 'nullable|string',
             'button_text' => 'nullable|string|max:100',
             'button_link' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,webp,gif|max:10240',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('slides', 'public');
+        }
 
         Slide::create($validated);
 
@@ -52,10 +57,17 @@ class SlideController extends Controller
             'subtitle' => 'nullable|string',
             'button_text' => 'nullable|string|max:100',
             'button_link' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,webp,gif|max:10240',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($slide->image) {
+                Storage::disk('public')->delete($slide->image);
+            }
+            $validated['image'] = $request->file('image')->store('slides', 'public');
+        }
 
         $slide->update($validated);
 
@@ -65,6 +77,10 @@ class SlideController extends Controller
 
     public function destroy(Slide $slide): RedirectResponse
     {
+        if ($slide->image) {
+            Storage::disk('public')->delete($slide->image);
+        }
+
         $slide->delete();
 
         return redirect()->route('admin.slides.index')

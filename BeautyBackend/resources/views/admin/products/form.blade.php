@@ -8,7 +8,7 @@
         {{ $product->exists ? 'Edit Product' : 'New Product' }}
     </h1>
 
-    <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" style="background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+    <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" style="background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
         @csrf
         @if ($product->exists)
             @method('PUT')
@@ -58,6 +58,7 @@
             <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Features (one per line)</label>
             <textarea name="features" rows="4" style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">{{ old('features', $product->features ? implode("\n", $product->features) : '') }}</textarea>
             <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Enter each feature on a new line.</div>
+            @error('features') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
         </div>
 
         <div style="margin-top: 20px; display: flex; gap: 24px;">
@@ -71,6 +72,37 @@
             </label>
         </div>
 
+        <div style="margin-top: 20px;">
+            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Images</label>
+            <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/webp,image/gif"
+                   style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
+            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Allowed: JPG, PNG, WebP, GIF. Max 2MB each.</div>
+            @error('images.*') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
+
+            <div id="image-preview" style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;"></div>
+        </div>
+
+        @if ($product->exists && $product->images->isNotEmpty())
+        <div style="margin-top: 24px;">
+            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 12px;">Current Images</label>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                @foreach ($product->images as $img)
+                    <div style="position: relative; width: 120px; height: 120px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+                        <img src="{{ asset('storage/' . $img->image) }}" alt="Product image"
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                        <form method="POST" action="{{ route('admin.products.images.destroy', [$product, $img]) }}"
+                              style="position: absolute; top: 4px; right: 4px; margin: 0;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Delete this image?')"
+                                    style="width: 24px; height: 24px; border-radius: 50%; border: none; background: rgba(0,0,0,0.6); color: #fff; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">×</button>
+                        </form>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         <div style="margin-top: 24px; display: flex; gap: 12px;">
             <button type="submit" style="padding: 10px 24px; background: #e11d48; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">
                 {{ $product->exists ? 'Update Product' : 'Create Product' }}
@@ -79,4 +111,24 @@
         </div>
     </form>
 </div>
+
+<script>
+document.querySelector('input[name="images[]"]')?.addEventListener('change', function() {
+    const preview = document.getElementById('image-preview');
+    preview.innerHTML = '';
+    for (const file of this.files) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const div = document.createElement('div');
+            div.style.cssText = 'width: 100px; height: 100px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;';
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+            div.appendChild(img);
+            preview.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 @endsection

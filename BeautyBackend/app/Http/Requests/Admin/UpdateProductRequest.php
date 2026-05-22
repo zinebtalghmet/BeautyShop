@@ -17,8 +17,7 @@ class UpdateProductRequest extends FormRequest
             'category_id' => 'sometimes|exists:categories,id',
             'name' => 'sometimes|string|max:200',
             'description' => 'sometimes|string',
-            'features' => 'nullable|array',
-            'features.*' => 'string|max:200',
+            'features' => 'nullable|string',
             'price' => 'sometimes|numeric|min:0',
             'original_price' => 'nullable|numeric|min:0',
             'stock' => 'sometimes|integer|min:0',
@@ -26,6 +25,8 @@ class UpdateProductRequest extends FormRequest
             'is_active' => 'nullable|boolean',
             'meta_title' => 'nullable|string|max:200',
             'meta_description' => 'nullable|string',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,webp,gif|max:10240',
         ];
     }
 }

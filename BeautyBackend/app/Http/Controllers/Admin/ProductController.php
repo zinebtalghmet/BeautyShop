@@ -7,8 +7,10 @@ use App\Http\Requests\Admin\StoreProductRequest;
 use App\Http\Requests\Admin\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -48,7 +50,11 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        if (empty($data['original_price']) && $data['discount'] ?? 0 > 0) {
+        if (isset($data['features']) && is_string($data['features'])) {
+            $data['features'] = array_filter(array_map('trim', explode("\n", $data['features'])));
+        }
+
+        if (empty($data['original_price']) && ($data['discount'] ?? 0) > 0) {
             $data['original_price'] = $data['price'];
         }
         if (!empty($data['original_price']) && $data['original_price'] > $data['price']) {
@@ -56,6 +62,18 @@ class ProductController extends Controller
         }
 
         $product = Product::create($data);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $i => $file) {
+                if ($file && $file->isValid()) {
+                    $path = $file->store('products', 'public');
+                    $product->images()->create([
+                        'image' => $path,
+                        'sort_order' => $i,
+                    ]);
+                }
+            }
+        }
 
         return redirect()
             ->route('admin.products.edit', $product)
@@ -74,6 +92,10 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
+        if (isset($data['features']) && is_string($data['features'])) {
+            $data['features'] = array_filter(array_map('trim', explode("\n", $data['features'])));
+        }
+
         if (empty($data['original_price']) && ($data['discount'] ?? 0) > 0) {
             $data['original_price'] = $data['price'];
         }
@@ -83,6 +105,17 @@ class ProductController extends Controller
 
         $product->update($data);
 
+        if ($request->hasFile('images')) {
+            $lastSort = $product->images()->max('sort_order') ?? -1;
+            foreach ($request->file('images') as $i => $file) {
+                $path = $file->store('products', 'public');
+                $product->images()->create([
+                    'image' => $path,
+                    'sort_order' => $lastSort + 1 + $i,
+                ]);
+            }
+        }
+
         return redirect()
             ->route('admin.products.edit', $product)
             ->with('success', "Product '{$product->name}' updated successfully.");
@@ -91,10 +124,25 @@ class ProductController extends Controller
     public function destroy(Product $product): RedirectResponse
     {
         $name = $product->name;
+
+        foreach ($product->images as $img) {
+            Storage::disk('public')->delete($img->image);
+        }
+
         $product->delete();
 
         return redirect()
             ->route('admin.products.index')
             ->with('success', "Product '{$name}' deleted successfully.");
+    }
+
+    public function destroyImage(Product $product, ProductImage $image): RedirectResponse
+    {
+        Storage::disk('public')->delete($image->image);
+        $image->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Image deleted successfully.');
     }
 }
