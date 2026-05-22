@@ -1,6 +1,6 @@
 # Beauty E-commerce Single Page Application
 
-A new modern, responsive beauty e-commerce single-page application built with **React** and **CSS Modules**. This project replicates a professional beauty product showcase with clean design, smooth animations, and full mobile responsiveness.
+A Fancy modern, responsive beauty e-commerce single-page application built with **React** and **CSS Modules**. This project replicates a professional beauty product showcase with clean design, smooth animations, and full mobile responsiveness.
 
 ---
 
@@ -394,6 +394,7 @@ For issues or questions about running this project, please check:
 
 ---
 
-**Built with ❤️ using React and CSS Modules**
+
+**Built with ❤️ using React and Laravel**
 
 **Ready for your review! After approval, we can proceed with additional pages and features.**
