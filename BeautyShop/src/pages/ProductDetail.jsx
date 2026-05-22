@@ -1,18 +1,8 @@
-/**
- * Product Detail Page - Enhanced with Frank Body Style
- * Features:
- * - Image gallery with multiple views
- * - Accordion sections (Ingredients, How to Use, Benefits)
- * - Icon-based benefits display
- * - Clean, modern layout
- * - Interactive add to cart
- */
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getProductBySlug, products } from '../data/products';
+import { getProductBySlug, getProducts } from '../data/products';
 import { useCart } from '../context/CartContext';
-import { getProductImage } from '../utils/imageHelper';
+import { getProductImage, getProductImagePath } from '../utils/imageHelper';
 import styles from '../styles/ProductDetail.module.css';
 
 const ProductDetail = () => {
@@ -21,30 +11,36 @@ const ProductDetail = () => {
   const { addToCart, isInCart, getItemQuantity } = useCart();
 
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
   const [openAccordion, setOpenAccordion] = useState(null);
 
   useEffect(() => {
-    const foundProduct = getProductBySlug(slug);
-    if (foundProduct) {
-      setProduct(foundProduct);
-      window.scrollTo(0, 0);
-    } else {
-      // Product not found, redirect to shop
-      navigate('/shop');
+    async function load() {
+      const foundProduct = await getProductBySlug(slug);
+      if (foundProduct) {
+        setProduct(foundProduct);
+        setQuantity(1);
+        setSelectedImage(0);
+        window.scrollTo(0, 0);
+
+        const allProducts = await getProducts();
+        const related = allProducts
+          .filter(p => p.category === foundProduct.category && p.id !== foundProduct.id)
+          .slice(0, 4);
+        setRelatedProducts(related);
+      } else {
+        navigate('/shop');
+      }
     }
+    load();
   }, [slug, navigate]);
 
   if (!product) {
     return <div className={styles.loading}>Loading...</div>;
   }
-
-  // Get related products (same category, exclude current)
-  const relatedProducts = products
-    .filter(p => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -71,7 +67,6 @@ const ProductDetail = () => {
   return (
     <div className={styles.productDetail}>
       <div className={styles.container}>
-        {/* Breadcrumb */}
         <nav className={styles.breadcrumb}>
           <Link to="/">Home</Link>
           <span>/</span>
@@ -80,12 +75,10 @@ const ProductDetail = () => {
           <span className={styles.currentPage}>{product.name}</span>
         </nav>
 
-        {/* Product Main Section */}
         <div className={styles.productMain}>
-          {/* Product Images */}
           <div className={styles.productImages}>
             <div className={styles.mainImage}>
-              <img src={getProductImage(product)} alt={product.name} style={{width:'100%',height:'100%',objectFit:'contain'}} />
+              <img src={getProductImagePath(product.images[selectedImage])} alt={product.name} style={{width:'100%',height:'100%',objectFit:'contain'}} />
               {product.discount > 0 && (
                 <div className={styles.discountBadge}>-{product.discount}%</div>
               )}
@@ -98,26 +91,23 @@ const ProductDetail = () => {
                     className={`${styles.thumbnail} ${selectedImage === index ? styles.active : ''}`}
                     onClick={() => setSelectedImage(index)}
                   >
-                    <div className={styles.thumbPlaceholder}></div>
+                    <img src={getProductImagePath(img)} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}} />
                   </div>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Product Info */}
           <div className={styles.productInfo}>
             <div className={styles.category}>{product.category}</div>
             <h1 className={styles.productName}>{product.name}</h1>
 
-            {/* Rating */}
             <div className={styles.rating}>
               <span className={styles.stars}>★★★★★</span>
               <span className={styles.ratingValue}>{product.rating}</span>
               <span className={styles.reviews}>({product.reviews} reviews)</span>
             </div>
 
-            {/* Price */}
             <div className={styles.priceSection}>
               <span className={styles.price}>${product.price.toFixed(2)}</span>
               {product.discount > 0 && (
@@ -132,7 +122,6 @@ const ProductDetail = () => {
               )}
             </div>
 
-            {/* Stock Status */}
             <div className={styles.stockStatus}>
               {product.stock > 0 ? (
                 <span className={styles.inStock}>
@@ -143,10 +132,8 @@ const ProductDetail = () => {
               )}
             </div>
 
-            {/* Description */}
             <p className={styles.description}>{product.description}</p>
 
-            {/* Quantity Selector & Add to Cart */}
             {product.stock > 0 && (
               <div className={styles.actions}>
                 <div className={styles.quantitySelector}>
@@ -170,14 +157,12 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/* Added to Cart Message */}
             {showAddedMessage && (
               <div className={styles.addedMessage}>
                 ✓ Product added to cart!
               </div>
             )}
 
-            {/* Already in Cart Notice */}
             {isInCart(product.id) && (
               <div className={styles.inCartNotice}>
                 This product is in your cart ({getItemQuantity(product.id)} items)
@@ -187,7 +172,6 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Benefits Section - Icon Based */}
         <div className={styles.benefitsSection}>
           <h2 className={styles.sectionTitle}>Why You'll Love It</h2>
           <div className={styles.benefitsGrid}>
@@ -235,9 +219,7 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Accordion Sections */}
         <div className={styles.accordionContainer}>
-          {/* Ingredients Accordion */}
           <div className={styles.accordionItem}>
             <button
               className={`${styles.accordionHeader} ${openAccordion === 'ingredients' ? styles.active : ''}`}
@@ -277,7 +259,6 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* How to Use Accordion */}
           <div className={styles.accordionItem}>
             <button
               className={`${styles.accordionHeader} ${openAccordion === 'usage' ? styles.active : ''}`}
@@ -328,7 +309,6 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* Reviews Accordion */}
           <div className={styles.accordionItem}>
             <button
               className={`${styles.accordionHeader} ${openAccordion === 'reviews' ? styles.active : ''}`}
@@ -359,7 +339,6 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                {/* Sample Reviews */}
                 <div className={styles.reviewsList}>
                   <div className={styles.reviewItem}>
                     <div className={styles.reviewHeader}>
@@ -396,7 +375,6 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className={styles.relatedProducts}>
             <h2 className={styles.relatedTitle}>Related Products</h2>
@@ -408,7 +386,12 @@ const ProductDetail = () => {
                   className={styles.relatedCard}
                 >
                   <div className={styles.relatedImage}>
-                    <div className={styles.relatedImagePlaceholder}></div>
+                    {getProductImage(relatedProduct) ? (
+                      <img src={getProductImage(relatedProduct)} alt={relatedProduct.name}
+                           className={styles.relatedProductImg} />
+                    ) : (
+                      <div className={styles.relatedImagePlaceholder}></div>
+                    )}
                     {relatedProduct.discount > 0 && (
                       <div className={styles.relatedBadge}>-{relatedProduct.discount}%</div>
                     )}

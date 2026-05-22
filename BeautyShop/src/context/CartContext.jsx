@@ -1,15 +1,8 @@
-/**
- * CartContext
- * Manages shopping cart state across the application
- * Provides: cart items, add to cart, remove from cart, update quantity, clear cart
- */
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import * as cartService from '../services/cartService';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-// Create Cart Context
 const CartContext = createContext();
 
-// Custom hook to use cart context
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
@@ -18,131 +11,161 @@ export const useCart = () => {
   return context;
 };
 
-// Cart Provider Component
+function transformApiItem(item) {
+  const p = item.product || {};
+  return {
+    id: p.id,
+    name: p.name || '',
+    slug: p.slug || '',
+    category: p.category_id || '',
+    price: parseFloat(p.price) || 0,
+    originalPrice: parseFloat(p.original_price) || 0,
+    discount: p.discount || 0,
+    description: p.description || '',
+    features: p.features || [],
+    rating: p.rating || 0,
+    stock: p.stock || 0,
+    images: p.images ? p.images.map(i => i.image) : [],
+    featured: p.is_featured || false,
+    quantity: item.quantity,
+    _cartItemId: item.id,
+  };
+}
+
 export const CartProvider = ({ children }) => {
-  // Initialize cart from localStorage or empty array
-  const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem('beautyShopCart');
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
+  const [cartItems, setCartItems] = useState([]);
+  const [cartItemMap, setCartItemMap] = useState({});
 
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('beautyShopCart', JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  /**
-   * Add item to cart
-   * If item exists, increase quantity; otherwise add new item
-   */
-  const addToCart = (product, quantity = 1) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
-
-      if (existingItem) {
-        // Item exists, update quantity
-        return prevItems.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      } else {
-        // New item, add to cart
-        return [...prevItems, { ...product, quantity }];
-      }
+  const buildMap = useCallback((items) => {
+    const map = {};
+    items.forEach(item => {
+      if (item.id) map[item.id] = item._cartItemId;
     });
-  };
+    setCartItemMap(map);
+  }, []);
 
-  /**
-   * Remove item from cart completely
-   */
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
-  };
+  useEffect(() => {
+    cartService.fetchCart()
+      .then(data => {
+        const transformed = data.map(transformApiItem);
+        setCartItems(transformed);
+        buildMap(transformed);
+      })
+      .catch(() => {
+        setCartItems([]);
+      });
+  }, [buildMap]);
 
-  /**
-   * Update item quantity
-   * If quantity is 0 or less, remove item
-   */
-  const updateQuantity = (productId, quantity) => {
+  const addToCart = useCallback(async (product, quantity = 1) => {
+    try {
+      const result = await cartService.addToCartApi(product.id, quantity);
+      const data = await cartService.fetchCart();
+      const transformed = data.map(transformApiItem);
+      setCartItems(transformed);
+      buildMap(transformed);
+      return result;
+    } catch {
+      // fallback: update local state optimistically
+      setCartItems(prev => {
+        const existing = prev.find(item => item.id === product.id);
+        if (existing) {
+          return prev.map(item =>
+            item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+          );
+        }
+        return [...prev, { ...product, quantity }];
+      });
+    }
+  }, [buildMap]);
+
+  const removeFromCart = useCallback(async (productId) => {
+    const cartItemId = cartItemMap[productId];
+    if (cartItemId) {
+      try {
+        await cartService.removeCartItem(cartItemId);
+        setCartItems(prev => prev.filter(item => item.id !== productId));
+        setCartItemMap(prev => {
+          const next = { ...prev };
+          delete next[productId];
+          return next;
+        });
+      } catch {
+        setCartItems(prev => prev.filter(item => item.id !== productId));
+      }
+    } else {
+      setCartItems(prev => prev.filter(item => item.id !== productId));
+    }
+  }, [cartItemMap]);
+
+  const updateQuantity = useCallback(async (productId, quantity) => {
     if (quantity <= 0) {
       removeFromCart(productId);
       return;
     }
-
-    setCartItems(prevItems =>
-      prevItems.map(item =>
+    setCartItems(prev =>
+      prev.map(item =>
         item.id === productId ? { ...item, quantity } : item
       )
     );
-  };
+    const cartItemId = cartItemMap[productId];
+    if (cartItemId) {
+      try {
+        await cartService.updateCartItemQuantity(cartItemId, quantity);
+      } catch {
+        // refetch on error
+        const data = await cartService.fetchCart();
+        setCartItems(data.map(transformApiItem));
+      }
+    }
+  }, [cartItemMap, removeFromCart]);
 
-  /**
-   * Increase item quantity by 1
-   */
-  const increaseQuantity = (productId) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  /**
-   * Decrease item quantity by 1
-   */
-  const decreaseQuantity = (productId) => {
-    setCartItems(prevItems => {
-      return prevItems
-        .map(item => {
-          if (item.id === productId) {
-            const newQuantity = item.quantity - 1;
-            return newQuantity > 0 ? { ...item, quantity: newQuantity } : null;
-          }
-          return item;
-        })
-        .filter(item => item !== null);
+  const increaseQuantity = useCallback((productId) => {
+    setCartItems(prev => {
+      const item = prev.find(i => i.id === productId);
+      if (item) updateQuantity(productId, item.quantity + 1);
+      return prev;
     });
-  };
+  }, [updateQuantity]);
 
-  /**
-   * Clear entire cart
-   */
-  const clearCart = () => {
+  const decreaseQuantity = useCallback((productId) => {
+    setCartItems(prev => {
+      const item = prev.find(i => i.id === productId);
+      if (item && item.quantity > 1) {
+        updateQuantity(productId, item.quantity - 1);
+      } else if (item) {
+        removeFromCart(productId);
+      }
+      return prev;
+    });
+  }, [updateQuantity, removeFromCart]);
+
+  const clearCart = useCallback(async () => {
+    try {
+      await cartService.clearCartApi();
+    } catch {
+      // proceed anyway
+    }
     setCartItems([]);
-    localStorage.removeItem('beautyShopCart');
-  };
+    setCartItemMap({});
+  }, []);
 
-  /**
-   * Get total number of items in cart
-   */
-  const getCartCount = () => {
+  const getCartCount = useCallback(() => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
-  };
+  }, [cartItems]);
 
-  /**
-   * Get cart subtotal (before tax/shipping)
-   */
-  const getSubtotal = () => {
+  const getSubtotal = useCallback(() => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+  }, [cartItems]);
 
-  /**
-   * Check if product is in cart
-   */
-  const isInCart = (productId) => {
+  const isInCart = useCallback((productId) => {
     return cartItems.some(item => item.id === productId);
-  };
+  }, [cartItems]);
 
-  /**
-   * Get item quantity in cart
-   */
-  const getItemQuantity = (productId) => {
+  const getItemQuantity = useCallback((productId) => {
     const item = cartItems.find(item => item.id === productId);
     return item ? item.quantity : 0;
-  };
+  }, [cartItems]);
 
-  // Context value
   const value = {
     cartItems,
     addToCart,
@@ -154,7 +177,7 @@ export const CartProvider = ({ children }) => {
     getCartCount,
     getSubtotal,
     isInCart,
-    getItemQuantity
+    getItemQuantity,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
