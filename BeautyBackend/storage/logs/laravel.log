@@ -1,0 +1,69 @@
+[2026-05-22 09:10:55] local.ERROR: Command "config:get" is not defined.
+
+Did you mean one of these?
+    cache:forget
+    config:cache
+    config:clear
+    config:make
+    config:publish
+    config:show
+    queue:forget {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"config:get\" is not defined.
+
+Did you mean one of these?
+    cache:forget
+    config:cache
+    config:clear
+    config:make
+    config:publish
+    config:show
+    queue:forget at C:/Users/jdira/Herd/beautyshop/BeautyBackend/vendor/symfony/console/Application.php:749)
+[stacktrace]
+#0 C:/Users/jdira/Herd/beautyshop/BeautyBackend/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find('config:get')
+#1 C:/Users/jdira/Herd/beautyshop/BeautyBackend/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#2 C:/Users/jdira/Herd/beautyshop/BeautyBackend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#3 C:/Users/jdira/Herd/beautyshop/BeautyBackend/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1235): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
+#4 C:/Users/jdira/Herd/beautyshop/BeautyBackend/artisan(16): Illuminate/Foundation/Application->handleCommand(Object(Symfony/Component/Console/Input/ArgvInput))
+#5 {main}
+"} 
+[2026-05-22 09:15:06] local.DEBUG: From: BeautyShop <noreply@beautyshop.com>
+To: dev.youssef@gmail.com
+Subject: Order Shipped - BS-20260522-1151
+MIME-Version: 1.0
+Date: Fri, 22 May 2026 09:15:06 +0000
+Message-ID: <a2a7d62e8062d02da8969d03e6147b5a@beautyshop.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;color:#333;line-height:1.6;margin:0;padding:0}.container{max-width:600px;margin:0 auto;padding:20px}.header{background:#d4a5a5;color:#fff;padding:20px;text-align:center;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:22px}.content{padding:20px;background:#f9f9f9;border:1px solid #e0e0e0;border-top:none}.footer{padding:15px;text-align:center;font-size:12px;color:#999}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f0f0f0;font-size:13px}.status-badge{display:inline-block;padding:5px 15px;border-radius:12px;font-size:14px;font-weight:700}.status-pending{background:#fef3c7;color:#92400e}.status-confirmed{background:#dbeafe;color:#1e40af}.status-processing{background:#ede9fe;color:#5b21b6}.status-shipped{background:#f0fdf4;color:#166534}.status-delivered{background:#dcfce7;color:#166534}.status-cancelled{background:#fef2f2;color:#dc2626}</style></head>
+<body>
+<div class="container">
+    <div class="header">
+                    <h1>Your Order Is On Its Way!</h1>
+            </div>
+    <div class="content">
+        <p>Hi <strong>youssef</strong>,</p>
+
+                    <p>Your order <strong>BS-20260522-1151</strong> has been shipped and is on its way!</p>
+        
+        <p style="text-align:center;margin:20px 0;">
+            <span class="status-badge status-shipped">Shipped</span>
+        </p>
+
+        <table>
+            <tr><th>Product</th><th>Qty</th><th>Price</th></tr>
+                        <tr>
+                <td>csdqfdqf</td>
+                <td>2</td>
+                <td>$100.00</td>
+            </tr>
+                    </table>
+
+        <p style="font-size:13px;color:#999;">Thank you for choosing BeautyShop!</p>
+    </div>
+    <div class="footer">&copy; 2026 BeautyShop. All rights reserved.</div>
+</div>
+</body>
+</html>
+  
