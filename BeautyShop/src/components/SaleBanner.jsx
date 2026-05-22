@@ -10,7 +10,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { products } from '../data/products';
+import { getProductsSync } from '../data/products';
 import styles from '../styles/SaleBanner.module.css';
 
 const SaleBanner = () => {
@@ -18,7 +18,7 @@ const SaleBanner = () => {
   const { addToCart } = useCart();
 
   // Get first sale product for "Add to Cart" functionality
-  const saleProducts = products.filter(p => p.discount > 0);
+  const saleProducts = (getProductsSync() || []).filter(p => p.discount > 0);
 
   // Add featured product to cart
   const handleAddToCart = () => {

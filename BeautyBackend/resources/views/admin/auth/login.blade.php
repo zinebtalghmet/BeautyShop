@@ -5,35 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login — BeautyShop</title>
     @vite('resources/css/app.css')
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: #f1f5f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .login-card { background: #fff; border-radius: 12px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
-        .logo { text-align: center; margin-bottom: 32px; }
-        .logo h1 { font-size: 24px; color: #0f172a; letter-spacing: -0.5px; }
-        .logo span { color: #e11d48; }
-        .logo p { font-size: 13px; color: #64748b; margin-top: 4px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px; }
-        input[type="email"], input[type="password"] { width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; }
-        input:focus { border-color: #e11d48; box-shadow: 0 0 0 3px rgba(225,29,72,0.1); }
-        .remember { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 14px; color: #475569; }
-        .btn { width: 100%; padding: 11px; background: #e11d48; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .btn:hover { background: #be123c; }
-        .error { background: #fef2f2; color: #dc2626; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
-        .error ul { list-style: none; }
-    </style>
 </head>
-<body>
-    <div class="login-card">
-        <div class="logo">
-            <h1>BEAUTY<span>·</span></h1>
-            <p>Admin Panel</p>
+<body class="bg-gray-50 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4 font-sans antialiased">
+    <div class="w-full max-w-[420px] rounded-2xl border border-gray-200 bg-white p-6 shadow-lg dark:border-gray-800 dark:bg-white/[0.03] sm:p-8">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-white/90 tracking-tight">BEAUTY<span class="text-brand-500">·</span></h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Admin Panel</p>
         </div>
 
         @if ($errors->any())
-            <div class="error">
-                <ul>
+            <div class="mb-5 rounded-lg bg-error-50 p-4 text-sm text-error-700 dark:bg-error-500/15 dark:text-error-500">
+                <ul class="list-disc pl-4 space-y-1">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -43,19 +25,23 @@
 
         <form method="POST" action="{{ route('admin.login.post') }}">
             @csrf
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus>
+            <div class="space-y-5">
+                <div>
+                    <label for="email" class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Email</label>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus
+                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">
+                </div>
+                <div>
+                    <label for="password" class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Password</label>
+                    <input type="password" name="password" id="password" required
+                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">
+                </div>
+                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-400 cursor-pointer">
+                    <input type="checkbox" name="remember" class="w-4 h-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500">
+                    Remember me
+                </label>
+                <button type="submit" class="w-full rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600 transition-colors">Sign In</button>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" required>
-            </div>
-            <label class="remember">
-                <input type="checkbox" name="remember">
-                Remember me
-            </label>
-            <button type="submit" class="btn">Sign In</button>
         </form>
     </div>
 </body>

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusUpdate;
 use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -59,6 +61,13 @@ class OrderController extends Controller
         }
 
         $order->update(array_merge(['status' => $validated['status']], $timestamps));
+        $order->load('items');
+
+        try {
+            Mail::to($order->shipping_email)->send(new OrderStatusUpdate($order));
+        } catch (\Throwable $e) {
+            // log silently
+        }
 
         return redirect()
             ->route('admin.orders.show', $order)

@@ -1,115 +1,108 @@
 @extends('admin.layouts.admin')
-
 @section('title', $product->exists ? 'Edit Product' : 'New Product')
-
 @section('content')
-<div style="padding: 24px; max-width: 800px;">
-    <h1 style="font-size: 24px; font-weight: 700; color: #0f172a; margin-bottom: 24px;">
-        {{ $product->exists ? 'Edit Product' : 'New Product' }}
-    </h1>
+<x-common.page-breadcrumb pageTitle="{{ $product->exists ? 'Edit Product' : 'New Product' }}" />
 
-    <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" style="background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
-        @csrf
-        @if ($product->exists)
-            @method('PUT')
-        @endif
+<div class="max-w-3xl">
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03]">
+        <form method="POST" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data">
+            @csrf
+            @if ($product->exists) @method('PUT') @endif
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div>
-                <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Name</label>
-                <input type="text" name="name" value="{{ old('name', $product->name) }}" required
-                       style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">
-                @error('name') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="mb-4">
+                    <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Name</label>
+                    <input type="text" name="name" value="{{ old('name', $product->name) }}" required
+                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">
+                    @error('name') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Category</label>
+                    <select name="category_id" required
+                            class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">
+                        <option value="">Select category</option>
+                        @foreach ($categories as $cat)
+                            <option value="{{ $cat->id }}" {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('category_id') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Price ($)</label>
+                    <input type="number" step="0.01" min="0" name="price" value="{{ old('price', $product->price) }}" required
+                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Original Price ($)</label>
+                    <input type="number" step="0.01" min="0" name="original_price" value="{{ old('original_price', $product->original_price) }}"
+                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Stock</label>
+                    <input type="number" min="0" name="stock" value="{{ old('stock', $product->stock) }}" required
+                           class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">
+                </div>
             </div>
-            <div>
-                <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Category</label>
-                <select name="category_id" required style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">
-                    <option value="">Select category</option>
-                    @foreach ($categories as $cat)
-                        <option value="{{ $cat->id }}" {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+
+            <div class="mb-4">
+                <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Description</label>
+                <textarea name="description" rows="5" required
+                          class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">{{ old('description', $product->description) }}</textarea>
+                @error('description') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Features (one per line)</label>
+                <textarea name="features" rows="4"
+                          class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90">{{ old('features', $product->features ? implode("\n", $product->features) : '') }}</textarea>
+                <p class="mt-1 text-theme-xs text-gray-500">Enter each feature on a new line.</p>
+                @error('features') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="flex items-center gap-6 mb-4">
+                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-400 cursor-pointer">
+                    <input type="checkbox" name="is_featured" value="1" class="w-4 h-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}>
+                    Featured
+                </label>
+                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-400 cursor-pointer">
+                    <input type="checkbox" name="is_active" value="1" class="w-4 h-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500" {{ old('is_active', $product->is_active ?? true) ? 'checked' : '' }}>
+                    Active
+                </label>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1.5 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Images</label>
+                <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/webp,image/gif"
+                       class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 dark:border-gray-700 dark:text-white/90 dark:file:bg-brand-500/10 dark:file:text-brand-400">
+                <p class="mt-1 text-theme-xs text-gray-500">Allowed: JPG, PNG, WebP, GIF. Max 10MB each.</p>
+                @error('images.*') <p class="mt-1 text-sm text-error-500">{{ $message }}</p> @enderror
+                <div id="image-preview" class="flex gap-3 mt-2 flex-wrap"></div>
+            </div>
+
+            @if ($product->exists && $product->images->isNotEmpty())
+            <div class="mb-4">
+                <label class="block mb-2 text-theme-sm font-medium text-gray-700 dark:text-gray-400">Current Images</label>
+                <div class="flex gap-3 flex-wrap">
+                    @foreach ($product->images as $img)
+                        <div class="relative w-[120px] h-[120px] rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <img src="{{ asset('storage/' . $img->image) }}" alt="Product image" class="w-full h-full object-cover">
+                            <form method="POST" action="{{ route('admin.products.images.destroy', [$product, $img]) }}" class="absolute top-1 right-1">
+                                @csrf @method('DELETE')
+                                <button type="submit" onclick="return confirm('Delete this image?')"
+                                        class="w-6 h-6 rounded-full border-0 bg-black/60 text-white text-sm cursor-pointer flex items-center justify-center p-0 hover:bg-black/80">×</button>
+                            </form>
+                        </div>
                     @endforeach
-                </select>
-                @error('category_id') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
+                </div>
             </div>
-            <div>
-                <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Price ($)</label>
-                <input type="number" step="0.01" min="0" name="price" value="{{ old('price', $product->price) }}" required
-                       style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">
+            @endif
+
+            <div class="flex gap-3 mt-6">
+                <button type="submit" class="rounded-lg bg-brand-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-600">{{ $product->exists ? 'Update Product' : 'Create Product' }}</button>
+                <a href="{{ route('admin.products.index') }}" class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700">Cancel</a>
             </div>
-            <div>
-                <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Original Price ($)</label>
-                <input type="number" step="0.01" min="0" name="original_price" value="{{ old('original_price', $product->original_price) }}"
-                       style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">
-            </div>
-            <div>
-                <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Stock</label>
-                <input type="number" min="0" name="stock" value="{{ old('stock', $product->stock) }}" required
-                       style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">
-            </div>
-        </div>
-
-        <div style="margin-top: 20px;">
-            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Description</label>
-            <textarea name="description" rows="5" required style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">{{ old('description', $product->description) }}</textarea>
-            @error('description') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
-        </div>
-
-        <div style="margin-top: 20px;">
-            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Features (one per line)</label>
-            <textarea name="features" rows="4" style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none;">{{ old('features', $product->features ? implode("\n", $product->features) : '') }}</textarea>
-            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Enter each feature on a new line.</div>
-            @error('features') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
-        </div>
-
-        <div style="margin-top: 20px; display: flex; gap: 24px;">
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #334155; cursor: pointer;">
-                <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}>
-                Featured
-            </label>
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #334155; cursor: pointer;">
-                <input type="checkbox" name="is_active" value="1" {{ old('is_active', $product->is_active ?? true) ? 'checked' : '' }}>
-                Active
-            </label>
-        </div>
-
-        <div style="margin-top: 20px;">
-            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 6px;">Images</label>
-            <input type="file" name="images[]" multiple accept="image/jpeg,image/png,image/webp,image/gif"
-                   style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px;">
-            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Allowed: JPG, PNG, WebP, GIF. Max 2MB each.</div>
-            @error('images.*') <div style="color: #dc2626; font-size: 13px; margin-top: 4px;">{{ $message }}</div> @enderror
-
-            <div id="image-preview" style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap;"></div>
-        </div>
-
-        @if ($product->exists && $product->images->isNotEmpty())
-        <div style="margin-top: 24px;">
-            <label style="display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 12px;">Current Images</label>
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                @foreach ($product->images as $img)
-                    <div style="position: relative; width: 120px; height: 120px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
-                        <img src="{{ asset('storage/' . $img->image) }}" alt="Product image"
-                             style="width: 100%; height: 100%; object-fit: cover;">
-                        <form method="POST" action="{{ route('admin.products.images.destroy', [$product, $img]) }}"
-                              style="position: absolute; top: 4px; right: 4px; margin: 0;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('Delete this image?')"
-                                    style="width: 24px; height: 24px; border-radius: 50%; border: none; background: rgba(0,0,0,0.6); color: #fff; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">×</button>
-                        </form>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        <div style="margin-top: 24px; display: flex; gap: 12px;">
-            <button type="submit" style="padding: 10px 24px; background: #e11d48; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">
-                {{ $product->exists ? 'Update Product' : 'Create Product' }}
-            </button>
-            <a href="{{ route('admin.products.index') }}" style="padding: 10px 24px; background: #f1f5f9; color: #475569; border-radius: 8px; text-decoration: none; font-size: 14px;">Cancel</a>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -120,10 +113,10 @@ document.querySelector('input[name="images[]"]')?.addEventListener('change', fun
         const reader = new FileReader();
         reader.onload = function(e) {
             const div = document.createElement('div');
-            div.style.cssText = 'width: 100px; height: 100px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;';
+            div.className = 'w-[100px] h-[100px] rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700';
             const img = document.createElement('img');
             img.src = e.target.result;
-            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+            img.className = 'w-full h-full object-cover';
             div.appendChild(img);
             preview.appendChild(div);
         };

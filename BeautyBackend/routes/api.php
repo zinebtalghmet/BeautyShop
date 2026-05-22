@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Controllers\Api\V1\SettingController;
 use App\Http\Controllers\Api\V1\SlideController;
+use App\Http\Controllers\Api\V1\ShippingController;
+use App\Http\Controllers\Api\V1\TaxRateController;
 
 Route::prefix('v1')->group(function () {
     // Public routes
@@ -31,6 +33,15 @@ Route::prefix('v1')->group(function () {
     Route::get('/reviews', [ReviewController::class, 'index']);
     Route::post('/contacts', [ContactController::class, 'store']);
 
+    // Tax rate endpoint
+    Route::get('/tax-rate', TaxRateController::class);
+
+    // Shipping rate endpoint
+    Route::get('/shipping-rate', ShippingController::class);
+
+    // Order endpoint (auth or session)
+    Route::post('/orders', [OrderController::class, 'store']);
+
     // Cart routes (auth or session)
     Route::post('/cart/add', [CartController::class, 'add']);
     Route::get('/cart', [CartController::class, 'index']);
@@ -47,6 +58,5 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/orders', [OrderController::class, 'index']);
         Route::get('/orders/{order}', [OrderController::class, 'show']);
-        Route::post('/orders', [OrderController::class, 'store']);
     });
 });

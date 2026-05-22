@@ -1,45 +1,43 @@
-/**
- * Shop Page
- * Product listing page with:
- * - Category filters
- * - Price range filter
- * - Sort options
- * - Pagination
- * - Product grid
- */
-
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { products, getCategories } from '../data/products';
+import { Link } from 'react-router-dom';
+import { getProducts, getCategories } from '../data/products';
 import { getProductImage } from '../utils/imageHelper';
 import styles from '../styles/Shop.module.css';
 
 const Shop = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [allProducts, setAllProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState('featured');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [loading, setLoading] = useState(true);
 
   const productsPerPage = 9;
-  const categories = getCategories();
 
-  // Apply filters and sorting
   useEffect(() => {
-    let filtered = [...products];
+    Promise.all([
+      getProducts(),
+      getCategories(),
+    ]).then(([products, cats]) => {
+      setAllProducts(products);
+      setCategories(cats);
+      setLoading(false);
+    });
+  }, []);
 
-    // Category filter
+  useEffect(() => {
+    let filtered = [...allProducts];
+
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
-    // Price range filter
     filtered = filtered.filter(product =>
       product.price >= priceRange[0] && product.price <= priceRange[1]
     );
 
-    // Sorting
     switch (sortBy) {
       case 'price-low':
         filtered.sort((a, b) => a.price - b.price);
@@ -54,15 +52,13 @@ const Shop = () => {
         filtered.sort((a, b) => b.rating - a.rating);
         break;
       default:
-        // Featured first
         filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     }
 
     setFilteredProducts(filtered);
-    setCurrentPage(1); // Reset to first page when filters change
-  }, [selectedCategory, priceRange, sortBy]);
+    setCurrentPage(1);
+  }, [allProducts, selectedCategory, priceRange, sortBy]);
 
-  // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -70,10 +66,22 @@ const Shop = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return (
+      <div className={styles.shopPage}>
+        <div className={styles.container}>
+          <div className={styles.pageHeader}>
+            <h1 className={styles.pageTitle}>Shop All Products</h1>
+          </div>
+          <p style={{ textAlign: 'center', padding: '40px 0', color: '#999' }}>Loading products...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.shopPage}>
       <div className={styles.container}>
-        {/* Page Header */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Shop All Products</h1>
           <p className={styles.productCount}>
@@ -82,9 +90,7 @@ const Shop = () => {
         </div>
 
         <div className={styles.shopContent}>
-          {/* Sidebar Filters */}
           <aside className={styles.sidebar}>
-            {/* Category Filter */}
             <div className={styles.filterSection}>
               <h3 className={styles.filterTitle}>Categories</h3>
               <div className={styles.filterOptions}>
@@ -96,7 +102,7 @@ const Shop = () => {
                     checked={selectedCategory === 'all'}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                   />
-                  <span>All Products ({products.length})</span>
+                  <span>All Products ({allProducts.length})</span>
                 </label>
                 {categories.map(cat => (
                   <label key={cat.id} className={styles.filterOption}>
@@ -113,18 +119,17 @@ const Shop = () => {
               </div>
             </div>
 
-            {/* Price Range Filter */}
             <div className={styles.filterSection}>
               <h3 className={styles.filterTitle}>Price Range</h3>
               <div className={styles.priceRange}>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={priceRange[1]}
-                  onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
-                  className={styles.rangeSlider}
-                />
+                  <input
+                    type="range"
+                    min="0"
+                    max="1000"
+                    value={priceRange[1]}
+                    onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+                    className={styles.rangeSlider}
+                  />
                 <div className={styles.priceLabels}>
                   <span>${priceRange[0]}</span>
                   <span>${priceRange[1]}</span>
@@ -132,12 +137,11 @@ const Shop = () => {
               </div>
             </div>
 
-            {/* Reset Filters */}
             <button
               className={styles.resetBtn}
               onClick={() => {
                 setSelectedCategory('all');
-                setPriceRange([0, 100]);
+                setPriceRange([0, 1000]);
                 setSortBy('featured');
               }}
             >
@@ -145,9 +149,7 @@ const Shop = () => {
             </button>
           </aside>
 
-          {/* Main Content Area */}
           <main className={styles.mainContent}>
-            {/* Sort Options */}
             <div className={styles.toolbar}>
               <label className={styles.sortLabel}>
                 Sort by:
@@ -165,38 +167,32 @@ const Shop = () => {
               </label>
             </div>
 
-            {/* Products Grid */}
             {currentProducts.length > 0 ? (
               <>
                 <div className={styles.productsGrid}>
                   {currentProducts.map(product => (
                     <div key={product.id} className={styles.productCard}>
-                      {/* Discount Badge */}
                       {product.discount > 0 && (
                         <div className={styles.discountBadge}>-{product.discount}%</div>
                       )}
 
-                      {/* Product Image */}
                       <Link to={`/product/${product.slug}`} className={styles.productImageLink}>
                         <div className={styles.productImage}>
                           <img src={getProductImage(product)} alt={product.name} className={styles.productImg} />
                         </div>
                       </Link>
 
-                      {/* Product Info */}
                       <div className={styles.productInfo}>
                         <Link to={`/product/${product.slug}`}>
                           <h3 className={styles.productName}>{product.name}</h3>
                         </Link>
                         <p className={styles.productCategory}>{product.category}</p>
 
-                        {/* Rating */}
                         <div className={styles.rating}>
                           <span className={styles.stars}>★★★★★</span>
                           <span className={styles.ratingText}>({product.reviews})</span>
                         </div>
 
-                        {/* Price */}
                         <div className={styles.priceSection}>
                           <span className={styles.price}>${product.price.toFixed(2)}</span>
                           {product.discount > 0 && (
@@ -206,7 +202,6 @@ const Shop = () => {
                           )}
                         </div>
 
-                        {/* View Product Button */}
                         <Link to={`/product/${product.slug}`} className={styles.viewBtn}>
                           View Details
                         </Link>
@@ -215,7 +210,6 @@ const Shop = () => {
                   ))}
                 </div>
 
-                {/* Pagination */}
                 {totalPages > 1 && (
                   <div className={styles.pagination}>
                     <button
@@ -251,7 +245,7 @@ const Shop = () => {
                 <p>No products found matching your filters.</p>
                 <button onClick={() => {
                   setSelectedCategory('all');
-                  setPriceRange([0, 100]);
+                  setPriceRange([0, 1000]);
                 }} className={styles.resetBtn}>
                   Reset Filters
                 </button>

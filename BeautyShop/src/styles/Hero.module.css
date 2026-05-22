@@ -1,8 +1,3 @@
-/**
- * Hero Section Styles
- * Sophisticated branded hero banner with model and floating products
- */
-
 .hero {
   background: linear-gradient(135deg, #d8b9c8 0%, #c9a9ba 30%, #b99aad 60%, #a88b9f 100%);
   padding: 0;
@@ -17,7 +12,8 @@
   padding: 0;
 }
 
-/* ========== MAIN HERO WRAPPER ========== */
+/* ========== STATIC FALLBACK (no slides) ========== */
+
 .heroWrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -26,7 +22,6 @@
   position: relative;
 }
 
-/* ========== MODEL SECTION (LEFT) ========== */
 .modelSection {
   position: relative;
   height: 500px;
@@ -44,7 +39,6 @@
   filter: brightness(1.05);
 }
 
-/* ========== CENTER CONTENT ========== */
 .centerContent {
   text-align: center;
   z-index: 10;
@@ -95,7 +89,6 @@
   background: #f8f8f8;
 }
 
-/* ========== PRODUCTS SECTION (RIGHT) ========== */
 .productsSection {
   position: relative;
   height: 500px;
@@ -119,115 +112,193 @@
   filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.3));
 }
 
-/* Position each product - CLEARLY SEPARATED */
-.product1 {
-  top: 5%;
-  right: 5%;
-  width: 180px;
-  animation-delay: 0s;
-}
+.product1 { top: 5%; right: 5%; width: 180px; animation-delay: 0s; }
+.product2 { top: 5%; right: 50%; width: 160px; animation-delay: 0.5s; }
+.product3 { bottom: 10%; right: 5%; width: 200px; animation-delay: 1s; }
+.product4 { bottom: 10%; right: 50%; width: 150px; animation-delay: 1.5s; }
 
-.product2 {
-  top: 5%;
-  right: 50%;
-  width: 160px;
-  animation-delay: 0.5s;
-}
-
-.product3 {
-  bottom: 10%;
-  right: 5%;
-  width: 200px;
-  animation-delay: 1s;
-}
-
-.product4 {
-  bottom: 10%;
-  right: 50%;
-  width: 150px;
-  animation-delay: 1.5s;
-}
-
-/* Floating animation */
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(2deg);
-  }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
 }
 
-/* ========== RESPONSIVE DESIGN ========== */
+/* ========== DYNAMIC SLIDER ========== */
 
-/* Large Desktop */
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+
+.slideActive {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slideOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.35) 100%);
+  z-index: 1;
+}
+
+.slideContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 700px;
+}
+
+.slideSubtitle {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.slideTitle {
+  font-size: 52px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 35px;
+  letter-spacing: 1px;
+  font-family: 'Georgia', serif;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.slideButton {
+  background: #fff;
+  color: #555;
+  padding: 14px 45px;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
+}
+
+.slideButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  background: #f8f8f8;
+}
+
+/* ========== ARROWS ========== */
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+  backdrop-filter: blur(4px);
+}
+
+.arrow:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.arrowLeft { left: 20px; }
+.arrowRight { right: 20px; }
+
+/* ========== DOTS ========== */
+
+.dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.dot:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,0.3);
+}
+
+.dotActive {
+  background: #fff;
+  border-color: #fff;
+}
+
+/* ========== RESPONSIVE ========== */
+
 @media (max-width: 1400px) {
-  .mainHeadline {
-    font-size: 42px;
-  }
+  .mainHeadline { font-size: 42px; }
+  .slideTitle { font-size: 44px; }
 }
 
-/* Tablet */
 @media (max-width: 1024px) {
   .heroWrapper {
     grid-template-columns: 0.8fr 1fr 0.8fr;
   }
-
-  .mainHeadline {
-    font-size: 36px;
-  }
-
-  .modelSection,
-  .productsSection {
-    height: 450px;
-  }
-
-  .floatingProduct {
-    width: 90px;
-  }
+  .mainHeadline { font-size: 36px; }
+  .modelSection, .productsSection { height: 450px; }
+  .floatingProduct { width: 90px; }
+  .slideTitle { font-size: 36px; }
+  .slideSubtitle { font-size: 10px; }
+  .arrow { width: 36px; height: 36px; }
+  .arrowLeft { left: 12px; }
+  .arrowRight { right: 12px; }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .heroWrapper {
     grid-template-columns: 1fr;
     min-height: 400px;
   }
-
-  .hero {
-    min-height: 400px;
-  }
-
-  .modelSection,
-  .productsSection {
-    display: none;
-  }
-
-  .centerContent {
-    padding: 80px 20px;
-  }
-
-  .mainHeadline {
-    font-size: 32px;
-  }
-
-  .subtitle {
-    font-size: 10px;
-  }
-
-  .shopButton {
-    padding: 12px 35px;
-    font-size: 12px;
-  }
+  .hero { min-height: 400px; }
+  .modelSection, .productsSection { display: none; }
+  .centerContent { padding: 80px 20px; }
+  .mainHeadline { font-size: 32px; }
+  .subtitle { font-size: 10px; }
+  .shopButton { padding: 12px 35px; font-size: 12px; }
+  .slide { min-height: 400px; }
+  .slideTitle { font-size: 28px; }
+  .slideButton { padding: 12px 35px; font-size: 12px; }
+  .arrow { display: none; }
 }
 
-/* Small Mobile */
 @media (max-width: 480px) {
-  .mainHeadline {
-    font-size: 28px;
-  }
-
-  .centerContent {
-    padding: 60px 15px;
-  }
+  .mainHeadline { font-size: 28px; }
+  .centerContent { padding: 60px 15px; }
+  .slideTitle { font-size: 24px; }
+  .slideContent { padding: 30px 15px; }
 }

@@ -1,10 +1,9 @@
-/**
- * Image Helper Utility
- * Helps generate correct image paths for products
- */
+const STORAGE_URL = process.env.REACT_APP_STORAGE_URL || 'http://localhost:8000/storage';
 
-export const getProductImagePath = (imageName) => {
-  return `${process.env.PUBLIC_URL}/images/products/${imageName}`;
+export const getProductImagePath = (imagePath) => {
+  if (!imagePath) return null;
+  if (imagePath.startsWith('http')) return imagePath;
+  return `${STORAGE_URL}/${imagePath}`;
 };
 
 export const getProductImage = (product) => {

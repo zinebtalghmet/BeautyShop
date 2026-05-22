@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\ShippingRateController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\TaxRateController;
 
 Route::prefix('admin')->group(function () {
     // Redirect /admin to dashboard (only if authenticated)
@@ -69,6 +71,22 @@ Route::prefix('admin')->group(function () {
         Route::get('/reviews', [ReviewController::class, 'index'])->name('admin.reviews.index');
         Route::put('/reviews/{review}/approve', [ReviewController::class, 'approve'])->name('admin.reviews.approve');
         Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+
+        // Tax Rates
+        Route::get('/tax-rates', [TaxRateController::class, 'index'])->name('admin.tax-rates.index');
+        Route::get('/tax-rates/create', [TaxRateController::class, 'create'])->name('admin.tax-rates.create');
+        Route::post('/tax-rates', [TaxRateController::class, 'store'])->name('admin.tax-rates.store');
+        Route::get('/tax-rates/{taxRate}/edit', [TaxRateController::class, 'edit'])->name('admin.tax-rates.edit');
+        Route::put('/tax-rates/{taxRate}', [TaxRateController::class, 'update'])->name('admin.tax-rates.update');
+        Route::delete('/tax-rates/{taxRate}', [TaxRateController::class, 'destroy'])->name('admin.tax-rates.destroy');
+
+        // Shipping Rates
+        Route::get('/shipping-rates', [ShippingRateController::class, 'index'])->name('admin.shipping-rates.index');
+        Route::get('/shipping-rates/create', [ShippingRateController::class, 'create'])->name('admin.shipping-rates.create');
+        Route::post('/shipping-rates', [ShippingRateController::class, 'store'])->name('admin.shipping-rates.store');
+        Route::get('/shipping-rates/{shippingRate}/edit', [ShippingRateController::class, 'edit'])->name('admin.shipping-rates.edit');
+        Route::put('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'update'])->name('admin.shipping-rates.update');
+        Route::delete('/shipping-rates/{shippingRate}', [ShippingRateController::class, 'destroy'])->name('admin.shipping-rates.destroy');
 
         // Contacts
         Route::get('/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');

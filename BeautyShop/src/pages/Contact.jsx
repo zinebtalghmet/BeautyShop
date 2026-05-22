@@ -1,23 +1,28 @@
-/**
- * Contact Page
- */
-
 import React, { useState } from 'react';
+import { submitContact } from '../services/contactService';
 import styles from '../styles/Contact.module.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setError('');
+
+    try {
+      await submitContact(formData);
+      setSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to send message. Please try again.');
+    }
   };
 
   return (
@@ -25,6 +30,12 @@ const Contact = () => {
       <div className={styles.container}>
         <h1 className={styles.pageTitle}>Contact Us</h1>
         <p className={styles.pageSubtitle}>We'd love to hear from you! Get in touch with our team.</p>
+
+        {error && (
+          <div style={{ background: '#fef2f2', color: '#dc2626', padding: '12px 16px', borderRadius: '8px', marginBottom: '20px', fontSize: '14px', maxWidth: '800px', margin: '0 auto 20px' }}>
+            {error}
+          </div>
+        )}
 
         <div className={styles.contactContent}>
           <div className={styles.contactInfo}>

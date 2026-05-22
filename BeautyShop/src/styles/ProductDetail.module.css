@@ -702,6 +702,13 @@
   border-radius: 10px;
 }
 
+.relatedProductImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
 .relatedBadge {
   position: absolute;
   top: 10px;

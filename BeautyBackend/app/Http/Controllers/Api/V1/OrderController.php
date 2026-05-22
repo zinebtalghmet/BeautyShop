@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewOrderNotification;
+use App\Mail\OrderConfirmation;
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\Setting;
+use App\Services\ShippingCalculator;
+use App\Services\TaxCalculator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -43,6 +49,8 @@ class OrderController extends Controller
             'state' => 'required|string|max:100',
             'zip' => 'required|string|max:20',
             'country' => 'nullable|string|max:100',
+            'region' => 'nullable|string|max:100',
+            'payment_method' => 'required|string|in:card,cash_on_delivery',
         ]);
 
         $userId = $request->user()?->id;
@@ -59,9 +67,15 @@ class OrderController extends Controller
 
         $order = DB::transaction(function () use ($cartItems, $validated, $userId) {
             $subtotal = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
-            $shipping = $subtotal > 50 ? 0 : 8.99;
-            $tax = $subtotal * 0.1;
+            $shippingResult = ShippingCalculator::calculate($subtotal, $validated['country'] ?? 'US', $validated['region'] ?? null);
+            $shipping = $shippingResult['cost'];
+
+            $taxResult = TaxCalculator::calculate($subtotal, $validated['country'] ?? 'USA', $validated['region'] ?? null);
+            $tax = $taxResult['amount'];
+
             $total = $subtotal + $shipping + $tax;
+
+            $paymentStatus = $validated['payment_method'] === 'card' ? 'paid' : 'pending';
 
             $order = Order::create([
                 'order_number' => 'BS-' . now()->format('Ymd') . '-' . str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT),
@@ -71,6 +85,8 @@ class OrderController extends Controller
                 'shipping_cost' => $shipping,
                 'tax' => $tax,
                 'total' => $total,
+                'payment_method' => $validated['payment_method'],
+                'payment_status' => $paymentStatus,
                 'shipping_first_name' => $validated['first_name'],
                 'shipping_last_name' => $validated['last_name'],
                 'shipping_email' => $validated['email'],
@@ -97,6 +113,19 @@ class OrderController extends Controller
 
             return $order;
         });
+
+        try {
+            Mail::to($order->shipping_email)->send(new OrderConfirmation($order));
+        } catch (\Throwable $e) {
+            // log silently
+        }
+
+        try {
+            $adminEmail = Setting::where('key', 'store_email')->value('value') ?: 'admin@beautyshop.com';
+            Mail::to($adminEmail)->send(new NewOrderNotification($order));
+        } catch (\Throwable $e) {
+            // log silently
+        }
 
         return response()->json([
             'message' => 'Order placed successfully.',
