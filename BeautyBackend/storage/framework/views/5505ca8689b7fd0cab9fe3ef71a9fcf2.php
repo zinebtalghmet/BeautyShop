@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Invoice — {{ $order->order_number }}</title>
+    <title>Invoice — <?php echo e($order->order_number); ?></title>
     <style>
         @page { margin: 32px 40px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -195,58 +195,58 @@
 <body onload="window.print()">
     <div class="invoice-wrap">
 
-        {{-- Top Bar --}}
+        
         <div class="top-bar">
             <div class="brand">
                 <h1>BEAUTY<span>·</span></h1>
-                <p>{{ $settings['store_address'] ?? '' }}</p>
+                <p><?php echo e($settings['store_address'] ?? ''); ?></p>
             </div>
             <div class="badge">Invoice</div>
         </div>
 
-        {{-- Meta Row --}}
+        
         <div class="meta-row">
             <div class="meta-col">
                 <h3>Invoice Number</h3>
-                <p>{{ $order->order_number }}</p>
+                <p><?php echo e($order->order_number); ?></p>
             </div>
             <div class="meta-col">
                 <h3>Invoice Date</h3>
-                <p>{{ $order->created_at->format('F d, Y') }}</p>
+                <p><?php echo e($order->created_at->format('F d, Y')); ?></p>
             </div>
             <div class="meta-col">
                 <h3>Payment</h3>
-                <p>{{ ucfirst($order->payment_method) }} — <span class="status {{ $order->payment_status }}">{{ $order->payment_status }}</span></p>
+                <p><?php echo e(ucfirst($order->payment_method)); ?> — <span class="status <?php echo e($order->payment_status); ?>"><?php echo e($order->payment_status); ?></span></p>
             </div>
             <div class="meta-col">
                 <h3>Order Status</h3>
-                <p><span class="status {{ $order->status }}">{{ $order->status }}</span></p>
+                <p><span class="status <?php echo e($order->status); ?>"><?php echo e($order->status); ?></span></p>
             </div>
         </div>
 
         <hr class="divider">
 
-        {{-- Addresses --}}
+        
         <div class="addresses">
             <div class="address-block">
                 <h3>Bill To</h3>
-                <p class="name">{{ $order->shipping_first_name }} {{ $order->shipping_last_name }}</p>
-                <p>{{ $order->shipping_email }}</p>
-                <p>{{ $order->shipping_address }}</p>
-                <p>{{ $order->shipping_city }}, {{ $order->shipping_state }} {{ $order->shipping_zip }}</p>
-                @if ($order->shipping_phone)
-                    <p>{{ $order->shipping_phone }}</p>
-                @endif
+                <p class="name"><?php echo e($order->shipping_first_name); ?> <?php echo e($order->shipping_last_name); ?></p>
+                <p><?php echo e($order->shipping_email); ?></p>
+                <p><?php echo e($order->shipping_address); ?></p>
+                <p><?php echo e($order->shipping_city); ?>, <?php echo e($order->shipping_state); ?> <?php echo e($order->shipping_zip); ?></p>
+                <?php if($order->shipping_phone): ?>
+                    <p><?php echo e($order->shipping_phone); ?></p>
+                <?php endif; ?>
             </div>
             <div class="address-block">
                 <h3>Sold By</h3>
-                <p class="name">{{ $settings['store_name'] ?? 'BeautyShop' }}</p>
-                <p>{{ $settings['store_email'] ?? '' }}</p>
-                <p>{{ $settings['store_phone'] ?? '' }}</p>
+                <p class="name"><?php echo e($settings['store_name'] ?? 'BeautyShop'); ?></p>
+                <p><?php echo e($settings['store_email'] ?? ''); ?></p>
+                <p><?php echo e($settings['store_phone'] ?? ''); ?></p>
             </div>
         </div>
 
-        {{-- Items Table --}}
+        
         <table>
             <thead>
                 <tr>
@@ -257,50 +257,51 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($order->items as $item)
+                <?php $__currentLoopData = $order->items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td>{{ $item->product_name }}</td>
-                        <td>${{ number_format($item->product_price, 2) }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>${{ number_format($item->subtotal, 2) }}</td>
+                        <td><?php echo e($item->product_name); ?></td>
+                        <td>$<?php echo e(number_format($item->product_price, 2)); ?></td>
+                        <td><?php echo e($item->quantity); ?></td>
+                        <td>$<?php echo e(number_format($item->subtotal, 2)); ?></td>
                     </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
 
-        {{-- Totals --}}
+        
         <div class="totals-wrap">
             <div class="row">
                 <span>Subtotal</span>
-                <span>${{ number_format($order->subtotal, 2) }}</span>
+                <span>$<?php echo e(number_format($order->subtotal, 2)); ?></span>
             </div>
             <div class="row">
                 <span>Shipping</span>
-                <span>{{ $order->shipping_cost > 0 ? '$'.number_format($order->shipping_cost, 2) : 'FREE' }}</span>
+                <span><?php echo e($order->shipping_cost > 0 ? '$'.number_format($order->shipping_cost, 2) : 'FREE'); ?></span>
             </div>
             <div class="row">
                 <span>Tax</span>
-                <span>${{ number_format($order->tax, 2) }}</span>
+                <span>$<?php echo e(number_format($order->tax, 2)); ?></span>
             </div>
-            @if ($order->discount_amount > 0)
+            <?php if($order->discount_amount > 0): ?>
                 <div class="row">
                     <span>Discount</span>
-                    <span>-${{ number_format($order->discount_amount, 2) }}</span>
+                    <span>-$<?php echo e(number_format($order->discount_amount, 2)); ?></span>
                 </div>
-            @endif
+            <?php endif; ?>
             <div class="row grand">
                 <span>Total</span>
-                <span>${{ number_format($order->total, 2) }}</span>
+                <span>$<?php echo e(number_format($order->total, 2)); ?></span>
             </div>
         </div>
 
-        {{-- Footer --}}
+        
         <div class="footer">
-            <p class="strong">{{ $settings['store_name'] ?? 'BeautyShop' }}</p>
-            <p>{{ $settings['store_email'] ?? '' }} &bull; {{ $settings['store_phone'] ?? '' }}</p>
+            <p class="strong"><?php echo e($settings['store_name'] ?? 'BeautyShop'); ?></p>
+            <p><?php echo e($settings['store_email'] ?? ''); ?> &bull; <?php echo e($settings['store_phone'] ?? ''); ?></p>
             <p>Thank you for your purchase!</p>
         </div>
 
     </div>
 </body>
 </html>
+<?php /**PATH C:\Users\jdira\Herd\beautyshop\BeautyBackend\resources\views/admin/orders/invoice.blade.php ENDPATH**/ ?>

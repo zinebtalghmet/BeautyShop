@@ -34,7 +34,13 @@
                             @endif
                         </td>
                         <td class="px-4 py-3.5 text-sm text-center">
-                            <a href="{{ route('admin.categories.edit', $category) }}" class="text-brand-500 hover:text-brand-600 font-medium">Edit</a>
+                            <div class="flex items-center justify-center space-x-3">
+                                <a href="{{ route('admin.categories.edit', $category) }}" class="text-brand-500 hover:text-brand-600 font-medium">Edit</a>
+                                <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Delete this category?')" class="inline">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-600 font-medium">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

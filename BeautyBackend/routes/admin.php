@@ -59,6 +59,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
         Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status');
         Route::get('/orders/{order}/invoice', [OrderController::class, 'invoice'])->name('admin.orders.invoice');
+        Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
 
         // Slides
         Route::get('/slides', [SlideController::class, 'index'])->name('admin.slides.index');

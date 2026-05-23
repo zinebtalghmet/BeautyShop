@@ -58,7 +58,13 @@
                         </td>
                         <td class="px-4 py-3.5 text-sm text-center text-gray-500 dark:text-gray-400">{{ $order->created_at->format('M d, Y') }}</td>
                         <td class="px-4 py-3.5 text-sm text-center">
-                            <a href="{{ route('admin.orders.show', $order) }}" class="text-brand-500 hover:text-brand-600 font-medium">View</a>
+                            <div class="flex items-center justify-center space-x-3">
+                                <a href="{{ route('admin.orders.show', $order) }}" class="text-brand-500 hover:text-brand-600 font-medium">View</a>
+                                <form action="{{ route('admin.orders.destroy', $order) }}" method="POST" onsubmit="return confirm('Delete this order?')" class="inline">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-600 font-medium">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

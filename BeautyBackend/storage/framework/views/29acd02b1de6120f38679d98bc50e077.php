@@ -88,7 +88,13 @@
                             <?php endif; ?>
                         </td>
                         <td class="px-4 py-3.5 text-sm text-center">
-                            <a href="<?php echo e(route('admin.products.edit', $product)); ?>" class="text-brand-500 hover:text-brand-600 font-medium">Edit</a>
+                            <div class="flex items-center justify-center space-x-3">
+                                <a href="<?php echo e(route('admin.products.edit', $product)); ?>" class="text-brand-500 hover:text-brand-600 font-medium">Edit</a>
+                                <form action="<?php echo e(route('admin.products.destroy', $product)); ?>" method="POST" onsubmit="return confirm('Delete this product?')" class="inline">
+                                    <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
+                                    <button type="submit" class="text-red-500 hover:text-red-600 font-medium">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
