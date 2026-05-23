@@ -120,3 +120,275 @@ Content-Transfer-Encoding: quoted-printable
 #48 C:/Users/jdira/Herd/beautyshop/BeautyBackend/artisan(12): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #49 {main}
 "} 
+[2026-05-22 11:58:57] local.DEBUG: From: BeautyShop <noreply@beautyshop.com>
+To: jdirayoussef@gmail.com
+Subject: Order Confirmation - BS-20260522-5275
+MIME-Version: 1.0
+Date: Fri, 22 May 2026 11:58:57 +0000
+Message-ID: <b897d081e1cff0790539e077173739b4@beautyshop.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;color:#333;line-height:1.6;margin:0;padding:0}.container{max-width:600px;margin:0 auto;padding:20px}.header{background:#d4a5a5;color:#fff;padding:20px;text-align:center;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:22px}.content{padding:20px;background:#f9f9f9;border:1px solid #e0e0e0;border-top:none}.footer{padding:15px;text-align:center;font-size:12px;color:#999}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f0f0f0;font-size:13px}.total{font-size:16px;font-weight:700;text-align:right;padding-top:10px}.btn{display:inline-block;padding:10px 20px;background:#d4a5a5;color:#fff;text-decoration:none;border-radius:5px;margin-top:15px}</style></head>
+<body>
+<div class="container">
+    <div class="header"><h1>Thank You for Your Order!</h1></div>
+    <div class="content">
+        <p>Hi <strong>youssef</strong>,</p>
+        <p>Your order <strong>BS-20260522-5275</strong> has been placed successfully.</p>
+
+        <table>
+            <tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+                        <tr>
+                <td>csdqfdqf</td>
+                <td>3</td>
+                <td>$100.00</td>
+                <td>$300.00</td>
+            </tr>
+                    </table>
+
+        <div class="total">
+            <p>Subtotal: $300.00</p>
+            <p>Shipping: FREE</p>
+            <p>Tax: $0.30</p>
+            <p style="font-size:20px;">Total: $300.30</p>
+        </div>
+
+        <p><strong>Shipping to:</strong><br>
+        116 Avenue Des Forces, Agadir<br>
+        agadir, souss 29990<br>
+        MA</p>
+
+        <p>Payment method: <strong>CASH ON DELIVERY</strong></p>
+        <p>Payment status: <strong>Pending</strong></p>
+
+        <p>We'll notify you when your order status changes. You can track your order anytime.</p>
+        <p style="font-size:13px;color:#999;">If you have any questions, reply to this email or contact our support.</p>
+    </div>
+    <div class="footer">&copy; 2026 BeautyShop. All rights reserved.</div>
+</div>
+</body>
+</html>
+  
+[2026-05-22 11:58:57] local.DEBUG: From: BeautyShop <noreply@beautyshop.com>
+To: support@beautyshop.com
+Subject: New Order - BS-20260522-5275
+MIME-Version: 1.0
+Date: Fri, 22 May 2026 11:58:57 +0000
+Message-ID: <ad6ea2d507b025d657feeed098d90eca@beautyshop.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;color:#333;line-height:1.6;margin:0;padding:0}.container{max-width:600px;margin:0 auto;padding:20px}.header{background:#0f172a;color:#fff;padding:20px;text-align:center;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:22px}.content{padding:20px;background:#f9f9f9;border:1px solid #e0e0e0;border-top:none}.footer{padding:15px;text-align:center;font-size:12px;color:#999}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f0f0f0;font-size:13px}.total{font-size:16px;font-weight:700;text-align:right;padding-top:10px}.label{display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;font-weight:600;background:#fef3c7;color:#92400e}</style></head>
+<body>
+<div class="container">
+    <div class="header"><h1>New Order Received</h1></div>
+    <div class="content">
+        <p>A new order has been placed.</p>
+        <p><strong>Order:</strong> BS-20260522-5275 <span class="label">Pending</span></p>
+        <p><strong>Customer:</strong> youssef jdira (jdirayoussef@gmail.com)</p>
+        <p><strong>Payment:</strong> CASH ON DELIVERY - Pending</p>
+
+        <table>
+            <tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+                        <tr>
+                <td>csdqfdqf</td>
+                <td>3</td>
+                <td>$100.00</td>
+                <td>$300.00</td>
+            </tr>
+                    </table>
+
+        <div class="total">
+            <p>Total: $300.30</p>
+        </div>
+
+        <p><a href="http://localhost:8000/admin/orders/2" style="color:#d4a5a5;">View order in admin &rarr;</a></p>
+    </div>
+    <div class="footer">&copy; 2026 BeautyShop. All rights reserved.</div>
+</div>
+</body>
+</html>
+  
+[2026-05-22 11:59:51] local.DEBUG: From: BeautyShop <noreply@beautyshop.com>
+To: jdirayoussef@gmail.com
+Subject: Order Confirmed - BS-20260522-5275
+MIME-Version: 1.0
+Date: Fri, 22 May 2026 11:59:51 +0000
+Message-ID: <0b0f23170b737fd3bd0dcfbcbbf5ebc7@beautyshop.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;color:#333;line-height:1.6;margin:0;padding:0}.container{max-width:600px;margin:0 auto;padding:20px}.header{background:#d4a5a5;color:#fff;padding:20px;text-align:center;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:22px}.content{padding:20px;background:#f9f9f9;border:1px solid #e0e0e0;border-top:none}.footer{padding:15px;text-align:center;font-size:12px;color:#999}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f0f0f0;font-size:13px}.status-badge{display:inline-block;padding:5px 15px;border-radius:12px;font-size:14px;font-weight:700}.status-pending{background:#fef3c7;color:#92400e}.status-confirmed{background:#dbeafe;color:#1e40af}.status-processing{background:#ede9fe;color:#5b21b6}.status-shipped{background:#f0fdf4;color:#166534}.status-delivered{background:#dcfce7;color:#166534}.status-cancelled{background:#fef2f2;color:#dc2626}</style></head>
+<body>
+<div class="container">
+    <div class="header">
+                    <h1>Order Status Update</h1>
+            </div>
+    <div class="content">
+        <p>Hi <strong>youssef</strong>,</p>
+
+                    <p>Your order <strong>BS-20260522-5275</strong> status has been updated.</p>
+        
+        <p style="text-align:center;margin:20px 0;">
+            <span class="status-badge status-confirmed">Confirmed</span>
+        </p>
+
+        <table>
+            <tr><th>Product</th><th>Qty</th><th>Price</th></tr>
+                        <tr>
+                <td>csdqfdqf</td>
+                <td>3</td>
+                <td>$100.00</td>
+            </tr>
+                    </table>
+
+        <p style="font-size:13px;color:#999;">Thank you for choosing BeautyShop!</p>
+    </div>
+    <div class="footer">&copy; 2026 BeautyShop. All rights reserved.</div>
+</div>
+</body>
+</html>
+  
+[2026-05-22 12:00:09] local.DEBUG: From: BeautyShop <noreply@beautyshop.com>
+To: jdirayoussef@gmail.com
+Subject: Order Processing - BS-20260522-5275
+MIME-Version: 1.0
+Date: Fri, 22 May 2026 12:00:09 +0000
+Message-ID: <1b8d7964e3cf1aec6304bdf1d37b5e52@beautyshop.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;color:#333;line-height:1.6;margin:0;padding:0}.container{max-width:600px;margin:0 auto;padding:20px}.header{background:#d4a5a5;color:#fff;padding:20px;text-align:center;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:22px}.content{padding:20px;background:#f9f9f9;border:1px solid #e0e0e0;border-top:none}.footer{padding:15px;text-align:center;font-size:12px;color:#999}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f0f0f0;font-size:13px}.status-badge{display:inline-block;padding:5px 15px;border-radius:12px;font-size:14px;font-weight:700}.status-pending{background:#fef3c7;color:#92400e}.status-confirmed{background:#dbeafe;color:#1e40af}.status-processing{background:#ede9fe;color:#5b21b6}.status-shipped{background:#f0fdf4;color:#166534}.status-delivered{background:#dcfce7;color:#166534}.status-cancelled{background:#fef2f2;color:#dc2626}</style></head>
+<body>
+<div class="container">
+    <div class="header">
+                    <h1>Order Status Update</h1>
+            </div>
+    <div class="content">
+        <p>Hi <strong>youssef</strong>,</p>
+
+                    <p>Your order <strong>BS-20260522-5275</strong> status has been updated.</p>
+        
+        <p style="text-align:center;margin:20px 0;">
+            <span class="status-badge status-processing">Processing</span>
+        </p>
+
+        <table>
+            <tr><th>Product</th><th>Qty</th><th>Price</th></tr>
+                        <tr>
+                <td>csdqfdqf</td>
+                <td>3</td>
+                <td>$100.00</td>
+            </tr>
+                    </table>
+
+        <p style="font-size:13px;color:#999;">Thank you for choosing BeautyShop!</p>
+    </div>
+    <div class="footer">&copy; 2026 BeautyShop. All rights reserved.</div>
+</div>
+</body>
+</html>
+  
+[2026-05-23 10:52:51] local.DEBUG: From: BeautyShop <noreply@beautyshop.com>
+To: laravel@gmail.com
+Subject: Order Confirmation - BS-20260523-5725
+MIME-Version: 1.0
+Date: Sat, 23 May 2026 10:52:51 +0000
+Message-ID: <7be7e88d8781196a6a3d731a2b07e6ff@beautyshop.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;color:#333;line-height:1.6;margin:0;padding:0}.container{max-width:600px;margin:0 auto;padding:20px}.header{background:#d4a5a5;color:#fff;padding:20px;text-align:center;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:22px}.content{padding:20px;background:#f9f9f9;border:1px solid #e0e0e0;border-top:none}.footer{padding:15px;text-align:center;font-size:12px;color:#999}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f0f0f0;font-size:13px}.total{font-size:16px;font-weight:700;text-align:right;padding-top:10px}.btn{display:inline-block;padding:10px 20px;background:#d4a5a5;color:#fff;text-decoration:none;border-radius:5px;margin-top:15px}</style></head>
+<body>
+<div class="container">
+    <div class="header"><h1>Thank You for Your Order!</h1></div>
+    <div class="content">
+        <p>Hi <strong>youssef</strong>,</p>
+        <p>Your order <strong>BS-20260523-5725</strong> has been placed successfully.</p>
+
+        <table>
+            <tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+                        <tr>
+                <td>csdqfdqf</td>
+                <td>3</td>
+                <td>$100.00</td>
+                <td>$300.00</td>
+            </tr>
+                    </table>
+
+        <div class="total">
+            <p>Subtotal: $300.00</p>
+            <p>Shipping: FREE</p>
+            <p>Tax: $0.30</p>
+            <p style="font-size:20px;">Total: $300.30</p>
+        </div>
+
+        <p><strong>Shipping to:</strong><br>
+        116 Avenue Des Forces, Agadir<br>
+        agadir, souss 29990<br>
+        US</p>
+
+        <p>Payment method: <strong>CARD</strong></p>
+        <p>Payment status: <strong>Paid</strong></p>
+
+        <p>We'll notify you when your order status changes. You can track your order anytime.</p>
+        <p style="font-size:13px;color:#999;">If you have any questions, reply to this email or contact our support.</p>
+    </div>
+    <div class="footer">&copy; 2026 BeautyShop. All rights reserved.</div>
+</div>
+</body>
+</html>
+  
+[2026-05-23 10:52:51] local.DEBUG: From: BeautyShop <noreply@beautyshop.com>
+To: support@beautyshop.com
+Subject: New Order - BS-20260523-5725
+MIME-Version: 1.0
+Date: Sat, 23 May 2026 10:52:51 +0000
+Message-ID: <5315b70df75f9c9a008bb19b5c8f416f@beautyshop.com>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>body{font-family:Arial,sans-serif;color:#333;line-height:1.6;margin:0;padding:0}.container{max-width:600px;margin:0 auto;padding:20px}.header{background:#0f172a;color:#fff;padding:20px;text-align:center;border-radius:8px 8px 0 0}.header h1{margin:0;font-size:22px}.content{padding:20px;background:#f9f9f9;border:1px solid #e0e0e0;border-top:none}.footer{padding:15px;text-align:center;font-size:12px;color:#999}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e0e0e0}th{background:#f0f0f0;font-size:13px}.total{font-size:16px;font-weight:700;text-align:right;padding-top:10px}.label{display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;font-weight:600;background:#fef3c7;color:#92400e}</style></head>
+<body>
+<div class="container">
+    <div class="header"><h1>New Order Received</h1></div>
+    <div class="content">
+        <p>A new order has been placed.</p>
+        <p><strong>Order:</strong> BS-20260523-5725 <span class="label">Pending</span></p>
+        <p><strong>Customer:</strong> youssef jdira (laravel@gmail.com)</p>
+        <p><strong>Payment:</strong> CARD - Paid</p>
+
+        <table>
+            <tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+                        <tr>
+                <td>csdqfdqf</td>
+                <td>3</td>
+                <td>$100.00</td>
+                <td>$300.00</td>
+            </tr>
+                    </table>
+
+        <div class="total">
+            <p>Total: $300.30</p>
+        </div>
+
+        <p><a href="http://localhost:8000/admin/orders/3" style="color:#d4a5a5;">View order in admin &rarr;</a></p>
+    </div>
+    <div class="footer">&copy; 2026 BeautyShop. All rights reserved.</div>
+</div>
+</body>
+</html>
+  

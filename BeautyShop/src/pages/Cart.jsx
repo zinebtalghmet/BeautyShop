@@ -18,7 +18,6 @@ const Cart = () => {
   const {
     cartItems,
     removeFromCart,
-    updateQuantity,
     increaseQuantity,
     decreaseQuantity,
     getSubtotal,

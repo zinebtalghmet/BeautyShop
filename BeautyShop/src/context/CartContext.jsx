@@ -119,25 +119,19 @@ export const CartProvider = ({ children }) => {
     }
   }, [cartItemMap, removeFromCart]);
 
-  const increaseQuantity = useCallback((productId) => {
-    setCartItems(prev => {
-      const item = prev.find(i => i.id === productId);
-      if (item) updateQuantity(productId, item.quantity + 1);
-      return prev;
-    });
-  }, [updateQuantity]);
+  const increaseQuantity = useCallback(async (productId) => {
+    const item = cartItems.find(i => i.id === productId);
+    if (item) await updateQuantity(productId, item.quantity + 1);
+  }, [cartItems, updateQuantity]);
 
-  const decreaseQuantity = useCallback((productId) => {
-    setCartItems(prev => {
-      const item = prev.find(i => i.id === productId);
-      if (item && item.quantity > 1) {
-        updateQuantity(productId, item.quantity - 1);
-      } else if (item) {
-        removeFromCart(productId);
-      }
-      return prev;
-    });
-  }, [updateQuantity, removeFromCart]);
+  const decreaseQuantity = useCallback(async (productId) => {
+    const item = cartItems.find(i => i.id === productId);
+    if (item && item.quantity > 1) {
+      await updateQuantity(productId, item.quantity - 1);
+    } else if (item) {
+      removeFromCart(productId);
+    }
+  }, [cartItems, updateQuantity, removeFromCart]);
 
   const clearCart = useCallback(async () => {
     try {
