@@ -1,0 +1,6 @@
+/BeautyBackend/public/storage
+/BeautyBackend/node_modules
+/BeautyBackend/vendor
+/BeautyBackend/.env
+/BeautyShop/node_modules
+/BeautyShop/build

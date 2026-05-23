@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', 'Products'); ?>
 <?php $__env->startSection('content'); ?>
 <?php if (isset($component)) { $__componentOriginal781784ddc1cff9584ff159910cf34f25 = $component; } ?>

@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('title', 'Order ' . $order->order_number); ?>
 
 <?php $__env->startSection('content'); ?>

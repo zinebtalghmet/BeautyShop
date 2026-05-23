@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShippingRateController;
 use App\Http\Controllers\Admin\SlideController;
@@ -92,6 +93,12 @@ Route::prefix('admin')->group(function () {
         Route::get('/contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
         Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('admin.contacts.show');
         Route::delete('/contacts/{contact}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
+
+        // Notifications
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('admin.notifications.index');
+        Route::get('/notifications/fetch', [NotificationController::class, 'fetch']);
+        Route::put('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('admin.notifications.read');
+        Route::put('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('admin.notifications.read-all');
 
         // Settings
         Route::get('/settings', [SettingController::class, 'index'])->name('admin.settings.index');

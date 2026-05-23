@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\OrderPlaced;
 use App\Http\Controllers\Controller;
 use App\Mail\NewOrderNotification;
 use App\Mail\OrderConfirmation;
@@ -123,6 +124,12 @@ class OrderController extends Controller
         try {
             $adminEmail = Setting::where('key', 'store_email')->value('value') ?: 'admin@beautyshop.com';
             Mail::to($adminEmail)->send(new NewOrderNotification($order));
+        } catch (\Throwable $e) {
+            // log silently
+        }
+
+        try {
+            event(new OrderPlaced($order));
         } catch (\Throwable $e) {
             // log silently
         }
