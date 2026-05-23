@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\ReviewSubmitted;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +39,12 @@ class ReviewController extends Controller
             'title' => $validated['title'] ?? null,
             'body' => $validated['body'] ?? null,
         ]);
+
+        try {
+            event(new ReviewSubmitted($review));
+        } catch (\Throwable $e) {
+            // log silently
+        }
 
         return response()->json([
             'message' => 'Review submitted and pending approval.',

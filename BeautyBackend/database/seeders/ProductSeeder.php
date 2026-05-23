@@ -10,26 +10,84 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $skincare = Category::where('name', 'Skincare')->first();
-        $makeup = Category::where('name', 'Makeup')->first();
-        $tools = Category::where('name', 'Tools & Accessories')->first();
-        $haircare = Category::where('name', 'Haircare')->first();
+        $edp = Category::where('name', 'Eau de Parfum')->first();
+        $edt = Category::where('name', 'Eau de Toilette')->first();
+        $cologne = Category::where('name', 'Cologne')->first();
+        $oils = Category::where('name', 'Perfume Oils')->first();
+        $gifts = Category::where('name', 'Gift Sets')->first();
+        $niche = Category::where('name', 'Niche & Luxury')->first();
 
         $products = [
-            ['category_id' => $skincare->id, 'name' => 'Hydrating Face Serum', 'price' => 45.99, 'original_price' => 59.99, 'stock' => 45, 'rating' => 4.8, 'reviews_count' => 124, 'is_featured' => true, 'description' => 'A lightweight, fast-absorbing serum that deeply hydrates and plumps skin.', 'features' => ['Hyaluronic acid for deep hydration', 'Vitamin E for antioxidant protection', 'Non-greasy formula', 'Suitable for all skin types']],
-            ['category_id' => $skincare->id, 'name' => 'Vitamin C Brightening Cream', 'price' => 38.50, 'original_price' => 55.00, 'stock' => 32, 'rating' => 4.6, 'reviews_count' => 89, 'is_featured' => true, 'description' => 'Illuminate your complexion with this powerful vitamin C cream.', 'features' => ['Contains 15% vitamin C', 'Reduces hyperpigmentation', '24-hour moisture', 'SPF 15 protection']],
-            ['category_id' => $skincare->id, 'name' => 'Gentle Cleansing Foam', 'price' => 24.99, 'original_price' => 24.99, 'stock' => 67, 'rating' => 4.7, 'reviews_count' => 156, 'is_featured' => false, 'description' => 'A soft, foaming cleanser that gently removes makeup and impurities.', 'features' => ['pH-balanced formula', 'Removes makeup effectively', 'No harsh chemicals', 'Leaves skin soft and clean']],
-            ['category_id' => $makeup->id, 'name' => 'Luxstick Lipstick Set', 'price' => 32.99, 'original_price' => 46.99, 'stock' => 28, 'rating' => 4.9, 'reviews_count' => 203, 'is_featured' => true, 'description' => 'A collection of 5 long-lasting, highly pigmented lipsticks.', 'features' => ['5 luxurious shades', 'Long-lasting formula', 'Moisturizing ingredients', 'Cruelty-free']],
-            ['category_id' => $makeup->id, 'name' => 'Flawless Foundation', 'price' => 42.00, 'original_price' => 52.50, 'stock' => 54, 'rating' => 4.7, 'reviews_count' => 178, 'is_featured' => true, 'description' => 'Achieve a flawless complexion with this lightweight, buildable foundation.', 'features' => ['20 shade range', 'Medium to full coverage', 'Oil-free formula', '12-hour wear']],
-            ['category_id' => $tools->id, 'name' => 'Professional Makeup Brush Set', 'price' => 56.99, 'original_price' => 75.99, 'stock' => 42, 'rating' => 4.9, 'reviews_count' => 267, 'is_featured' => true, 'description' => 'Complete 12-piece brush set with synthetic bristles.', 'features' => ['12 essential brushes', 'Synthetic bristles', 'Vegan and cruelty-free', 'Storage case included']],
-            ['category_id' => $tools->id, 'name' => 'Makeup Fixing Mist', 'price' => 26.50, 'original_price' => 26.50, 'stock' => 71, 'rating' => 4.6, 'reviews_count' => 98, 'is_featured' => true, 'description' => 'Lock in your makeup for all-day wear with this lightweight setting spray.', 'features' => ['All-day hold', 'Lightweight formula', 'Refreshing mist', 'Travel-friendly size']],
-            ['category_id' => $tools->id, 'name' => 'LED Makeup Mirror', 'price' => 64.99, 'original_price' => 64.99, 'stock' => 23, 'rating' => 4.8, 'reviews_count' => 134, 'is_featured' => false, 'description' => 'Professional-grade mirror with adjustable LED lighting.', 'features' => ['Adjustable LED lighting', '10x magnification', '360° rotation', 'USB rechargeable']],
-            ['category_id' => $haircare->id, 'name' => 'Argan Oil Hair Serum', 'price' => 34.99, 'original_price' => 34.99, 'stock' => 58, 'rating' => 4.7, 'reviews_count' => 112, 'is_featured' => false, 'description' => 'Nourish and repair damaged hair with this luxurious argan oil serum.', 'features' => ['Pure argan oil', 'Anti-frizz formula', 'Heat protection', 'Suitable for all hair types']],
-            ['category_id' => $haircare->id, 'name' => 'Volumizing Shampoo & Conditioner Set', 'price' => 42.99, 'original_price' => 42.99, 'stock' => 34, 'rating' => 4.5, 'reviews_count' => 87, 'is_featured' => false, 'description' => 'Add body and bounce to fine hair with this volumizing duo.', 'features' => ['Sulfate-free', 'Adds volume', 'Color-safe', 'Paraben-free']],
-            ['category_id' => $haircare->id, 'name' => 'Deep Conditioning Hair Mask', 'price' => 29.99, 'original_price' => 39.99, 'stock' => 46, 'rating' => 4.9, 'reviews_count' => 201, 'is_featured' => false, 'description' => 'Intensive treatment mask that repairs and strengthens damaged hair.', 'features' => ['Intensive repair', 'Keratin-enriched', 'Weekly treatment', 'Salon results at home']],
-            ['category_id' => $skincare->id, 'name' => 'Rose Water Toner', 'price' => 22.99, 'original_price' => 22.99, 'stock' => 62, 'rating' => 4.6, 'reviews_count' => 76, 'is_featured' => false, 'description' => 'Refreshing rose water toner that balances skin pH and tightens pores.', 'features' => ['Pure rose water', 'Balances pH', 'Tightens pores', 'Alcohol-free']],
-            ['category_id' => $makeup->id, 'name' => 'Glow Highlighter Palette', 'price' => 35.99, 'original_price' => 35.99, 'stock' => 39, 'rating' => 4.8, 'reviews_count' => 143, 'is_featured' => false, 'description' => 'Four stunning highlighter shades to add luminous glow to your face.', 'features' => ['4 shade palette', 'Silky powder texture', 'Long-lasting glow', 'Buildable coverage']],
-            ['category_id' => $tools->id, 'name' => 'Beauty Blender Sponge Set', 'price' => 18.99, 'original_price' => 24.99, 'stock' => 95, 'rating' => 4.7, 'reviews_count' => 189, 'is_featured' => false, 'description' => 'Set of 3 makeup sponges for flawless foundation application.', 'features' => ['3-piece set', 'Latex-free', 'Reusable', 'Multiple colors']],
+            [
+                'category_id' => $edp->id, 'name' => 'Blooming Rose',
+                'price' => 89.00, 'original_price' => 110.00, 'stock' => 35,
+                'rating' => 4.8, 'reviews_count' => 142, 'is_featured' => true,
+                'description' => 'A captivating floral fragrance that captures the essence of a blooming rose garden at dawn. Notes of fresh damask rose, violet leaf, and soft musk create an elegant and timeless scent.',
+                'features' => ['Top notes: Bergamot, Violet Leaf', 'Heart notes: Damask Rose, Jasmine', 'Base notes: Musk, Sandalwood, Amber', 'Longevity: 6-8 hours', 'Concentration: 20% perfume oil'],
+            ],
+            [
+                'category_id' => $edp->id, 'name' => 'Velvet Noir',
+                'price' => 120.00, 'original_price' => 120.00, 'stock' => 20,
+                'rating' => 4.9, 'reviews_count' => 98, 'is_featured' => true,
+                'description' => 'A bold and sophisticated dark floral-woody fragrance. Black rose, rich oud, and warm amber create an intense, seductive scent that commands attention.',
+                'features' => ['Top notes: Black Currant, Pink Pepper', 'Heart notes: Black Rose, Saffron', 'Base notes: Oud, Amber, Patchouli', 'Longevity: 8-10 hours', 'Concentration: 25% perfume oil'],
+            ],
+            [
+                'category_id' => $edt->id, 'name' => 'Ocean Breeze',
+                'price' => 65.00, 'original_price' => 65.00, 'stock' => 50,
+                'rating' => 4.6, 'reviews_count' => 87, 'is_featured' => false,
+                'description' => 'A fresh aquatic fragrance that transports you to a serene seaside escape. Marine accord, white musk, and citrus notes create a clean and invigorating scent.',
+                'features' => ['Top notes: Sea Salt, Lemon, Bergamot', 'Heart notes: Lavender, Sage, Aquatic Notes', 'Base notes: White Musk, Cedarwood, Driftwood', 'Longevity: 4-6 hours', 'Concentration: 10% perfume oil'],
+            ],
+            [
+                'category_id' => $edt->id, 'name' => 'Jasmine Nights',
+                'price' => 72.00, 'original_price' => 88.00, 'stock' => 30,
+                'rating' => 4.7, 'reviews_count' => 115, 'is_featured' => true,
+                'description' => 'An enchanting white floral fragrance inspired by warm Mediterranean evenings. Star jasmine, orange blossom, and creamy vanilla create a romantic and radiant aura.',
+                'features' => ['Top notes: Bergamot, Pear, Pink Pepper', 'Heart notes: Jasmine, Orange Blossom, Ylang-Ylang', 'Base notes: Vanilla, Sandalwood, White Musk', 'Longevity: 5-7 hours', 'Concentration: 12% perfume oil'],
+            ],
+            [
+                'category_id' => $cologne->id, 'name' => 'Fresh Citrus',
+                'price' => 55.00, 'original_price' => 55.00, 'stock' => 60,
+                'rating' => 4.5, 'reviews_count' => 73, 'is_featured' => false,
+                'description' => 'A vibrant and zesty cologne that bursts with sun-ripened citrus. Sicilian lemon, juicy grapefruit, and a touch of mint create an uplifting and energizing scent.',
+                'features' => ['Top notes: Sicilian Lemon, Grapefruit, Mint', 'Heart notes: Petitgrain, Rosemary, Coriander', 'Base notes: White Musk, Vetiver, Oakmoss', 'Longevity: 3-4 hours', 'Concentration: 5% perfume oil'],
+            ],
+            [
+                'category_id' => $oils->id, 'name' => 'White Musk',
+                'price' => 45.00, 'original_price' => 45.00, 'stock' => 40,
+                'rating' => 4.8, 'reviews_count' => 164, 'is_featured' => true,
+                'description' => 'A纯净 and sensual alcohol-free perfume oil. Clean white musk layered with soft florals and a hint of amber creates a signature scent that feels like your own skin, but better.',
+                'features' => ['Notes: White Musk, Lily of the Valley, Rose', 'Alcohol-free formula', 'Roll-on application', 'Longevity: 8-12 hours', 'Concentrated oil format'],
+            ],
+            [
+                'category_id' => $oils->id, 'name' => 'Amber Oud',
+                'price' => 58.00, 'original_price' => 58.00, 'stock' => 25,
+                'rating' => 4.9, 'reviews_count' => 91, 'is_featured' => false,
+                'description' => 'A warm and exotic perfume oil that blends rich amber with precious oud wood. Hints of saffron and leather add depth to this luxurious, long-lasting fragrance oil.',
+                'features' => ['Notes: Amber, Oud, Saffron, Leather', 'Alcohol-free formula', 'Roll-on application', 'Longevity: 10-14 hours', 'Concentrated oil format'],
+            ],
+            [
+                'category_id' => $niche->id, 'name' => 'Platinum',
+                'price' => 195.00, 'original_price' => 195.00, 'stock' => 10,
+                'rating' => 5.0, 'reviews_count' => 42, 'is_featured' => true,
+                'description' => 'An exclusive artisanal eau de parfum crafted with rare and precious ingredients. Iris butter, ambergris, and real Omani frankincense create an impossibly refined and sophisticated scent.',
+                'features' => ['Top notes: Pink Pepper, Frankincense', 'Heart notes: Iris Butter, Orris Root, Rose Absolute', 'Base notes: Ambergris, Vetiver, Leather, Musk', 'Longevity: 10-12 hours', 'Handcrafted in limited batches'],
+            ],
+            [
+                'category_id' => $gifts->id, 'name' => 'Luxury Gift Set — Diamond',
+                'price' => 150.00, 'original_price' => 185.00, 'stock' => 15,
+                'rating' => 4.9, 'reviews_count' => 67, 'is_featured' => true,
+                'description' => 'A lavish gift set featuring full-size Blooming Rose Eau de Parfum, matching body lotion, and a travel-sized atomizer. Presented in an elegant keepsake box.',
+                'features' => ['Full-size Blooming Rose EdP (50ml)', 'Matching body lotion (100ml)', 'Travel atomizer (10ml)', 'Luxury keepsake gift box', 'Perfect for gifting'],
+            ],
+            [
+                'category_id' => $gifts->id, 'name' => 'Travel Trio Gift Set',
+                'price' => 85.00, 'original_price' => 85.00, 'stock' => 22,
+                'rating' => 4.7, 'reviews_count' => 53, 'is_featured' => false,
+                'description' => 'Three miniature versions of our best-selling fragrances in a portable gift set. Includes Blooming Rose, Ocean Breeze, and Jasmine Nights — perfect for travel or discovery.',
+                'features' => ['Blooming Rose EdP (10ml)', 'Ocean Breeze EdT (10ml)', 'Jasmine Nights EdT (10ml)', 'Compact travel case', 'TSA-friendly sizes'],
+            ],
         ];
 
         foreach ($products as $data) {

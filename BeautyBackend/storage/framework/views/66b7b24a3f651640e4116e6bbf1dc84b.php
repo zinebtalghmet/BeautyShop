@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', $product->exists ? 'Edit Product' : 'New Product'); ?>
 <?php $__env->startSection('content'); ?>
 <?php if (isset($component)) { $__componentOriginal781784ddc1cff9584ff159910cf34f25 = $component; } ?>

@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('title', 'Orders'); ?>
 <?php $__env->startSection('content'); ?>
 <?php if (isset($component)) { $__componentOriginal781784ddc1cff9584ff159910cf34f25 = $component; } ?>
@@ -83,7 +84,13 @@
                         </td>
                         <td class="px-4 py-3.5 text-sm text-center text-gray-500 dark:text-gray-400"><?php echo e($order->created_at->format('M d, Y')); ?></td>
                         <td class="px-4 py-3.5 text-sm text-center">
-                            <a href="<?php echo e(route('admin.orders.show', $order)); ?>" class="text-brand-500 hover:text-brand-600 font-medium">View</a>
+                            <div class="flex items-center justify-center space-x-3">
+                                <a href="<?php echo e(route('admin.orders.show', $order)); ?>" class="text-brand-500 hover:text-brand-600 font-medium">View</a>
+                                <form action="<?php echo e(route('admin.orders.destroy', $order)); ?>" method="POST" onsubmit="return confirm('Delete this order?')" class="inline">
+                                    <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
+                                    <button type="submit" class="text-red-500 hover:text-red-600 font-medium">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

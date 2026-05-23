@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('title', 'Order ' . $order->order_number); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -7,7 +9,13 @@
             <h1 style="font-size: 24px; font-weight: 700; color: #0f172a;">Order <?php echo e($order->order_number); ?></h1>
             <p style="color: #64748b; font-size: 14px;">Placed <?php echo e($order->created_at->format('F d, Y \a\t g:i A')); ?></p>
         </div>
-        <a href="<?php echo e(route('admin.orders.invoice', $order)); ?>" target="_blank" style="padding: 8px 16px; background: #f1f5f9; color: #475569; border-radius: 8px; text-decoration: none; font-size: 13px;">Print Invoice</a>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <a href="<?php echo e(route('admin.orders.invoice', $order)); ?>" target="_blank" style="padding: 8px 16px; background: #f1f5f9; color: #475569; border-radius: 8px; text-decoration: none; font-size: 13px;">Print Invoice</a>
+            <form action="<?php echo e(route('admin.orders.destroy', $order)); ?>" method="POST" onsubmit="return confirm('Delete this order?')" style="display: inline;">
+                <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
+                <button type="submit" style="padding: 8px 16px; background: #fef2f2; color: #dc2626; border: none; border-radius: 8px; font-size: 13px; cursor: pointer;">Delete</button>
+            </form>
+        </div>
     </div>
 
     <?php if(session('success')): ?>

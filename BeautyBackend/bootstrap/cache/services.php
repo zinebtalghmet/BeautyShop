@@ -37,6 +37,7 @@
     33 => 'Spatie\\Permission\\PermissionServiceProvider',
     34 => 'Spatie\\Sluggable\\SluggableServiceProvider',
     35 => 'App\\Providers\\AppServiceProvider',
+    36 => 'App\\Providers\\EventServiceProvider',
   ),
   'eager' => 
   array (
@@ -62,6 +63,7 @@
     19 => 'Spatie\\Permission\\PermissionServiceProvider',
     20 => 'Spatie\\Sluggable\\SluggableServiceProvider',
     21 => 'App\\Providers\\AppServiceProvider',
+    22 => 'App\\Providers\\EventServiceProvider',
   ),
   'deferred' => 
   array (

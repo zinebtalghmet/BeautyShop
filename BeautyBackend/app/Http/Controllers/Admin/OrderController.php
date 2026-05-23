@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderStatusUpdate;
 use App\Models\Order;
+use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -74,9 +75,19 @@ class OrderController extends Controller
             ->with('success', "Order {$order->order_number} status updated to {$validated['status']}.");
     }
 
+    public function destroy(Order $order): RedirectResponse
+    {
+        $order->delete();
+
+        return redirect()
+            ->route('admin.orders.index')
+            ->with('success', "Order {$order->order_number} deleted successfully.");
+    }
+
     public function invoice(Order $order): View
     {
         $order->load('items');
-        return view('admin.orders.invoice', compact('order'));
+        $settings = Setting::pluck('value', 'key');
+        return view('admin.orders.invoice', compact('order', 'settings'));
     }
 }
